@@ -1,0 +1,12 @@
+=========
+CHANGELOG
+=========
+
+
+April 22 2018, Release version 0.5
+====================================
+Version for testing purposes. No ECMWF API implemented at this time.
+
+  ADDED:
+	- first version of the GUI.
+	- first version of the python code.
