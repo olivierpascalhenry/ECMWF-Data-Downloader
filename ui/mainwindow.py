@@ -5,9 +5,10 @@ import time
 from PyQt5 import QtCore, QtWidgets, QtGui, Qt
 from ui.Ui_mainwindow import Ui_MainWindow
 from ui._version import _downloader_version, _eclipse_version, _py_version, _qt_version
-from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate
-from functions.material_functions import info_button_text
+from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate, MySelect
+from functions.material_functions import info_button_text, object_init, dataset_data_information
 from functions.thread_functions import CheckECMWFDownloaderOnline
+from functions.gui_functions import populate_period_elements, populate_fields, hide_area_map, set_visibility_area_map
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -17,23 +18,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.config_path = path
         logging.info('mainwindow.py - UI initialization ...')
         self.setupUi(self)
+        object_init(self)
         info_button_text(self)
+        dataset_data_information(self)
+        hide_area_map(self)
         itemDelegate = QtWidgets.QStyledItemDelegate()
-        self.area_rb_1.setItemDelegate(itemDelegate)
-        
-        
-        
+        self.area_cb_1.setItemDelegate(itemDelegate)
+        self.area_cb_2.setItemDelegate(itemDelegate)
+        for widget in self.dataset_gb_1.buttons():
+            widget.clicked.connect(lambda: populate_fields(self))
+        self.time_rb_1.clicked.connect(lambda: populate_period_elements(self))
+        self.time_rb_2.clicked.connect(lambda: populate_period_elements(self))
+        self.area_cb_1.activated.connect(lambda: set_visibility_area_map(self))
+        self.download_bt_1.clicked.connect(lambda: self.check_tabs_for_download())
         self.check_downloader_update()
-        self.modified = False
         self.make_window_title()
         logging.info('mainwindow.py - UI initialized ...')
         logging.info('*****************************************')
-
+        
     
     @QtCore.pyqtSlot()
     def on_actionExit_triggered(self):
         self.close()
-        
+    
+    @QtCore.pyqtSlot()
+    def on_actionSave_triggered(self):
+        print('Not available yet')
+    
+    @QtCore.pyqtSlot()
+    def on_actionOpen_triggered(self):
+        print('Not available yet')
+    
     @QtCore.pyqtSlot()
     def on_actionAbout_triggered(self):
         self.open_about()
@@ -49,10 +64,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_actionUpdate_triggered(self):
         self.download_and_install_downloader_update()
-    
-    
-    
-    
     
     def open_about(self):
         logging.debug('mainwindow.py - open_about')
@@ -97,14 +108,104 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.config_dict = self.optionWindow.config_dict
             with open(os.path.join(self.config_path, 'ecmwf_downloader.ini'), 'w') as config_file:
                 self.config_dict.write(config_file)
-            #logging.getLogger().setLevel(self.config_dict.get('LOG', 'level'))
-            #self.check_prosim737updater_update()
+            logging.getLogger().setLevel(self.config_dict.get('LOG', 'level'))
+            self.check_downloader_update()
+
+    def check_tabs_for_download(self):
+        logging.debug('mainwindow.py - check_tabs_for_download')
+        labels = self.findChildren(QtWidgets.QLabel)
+        for label in labels:
+            if label.isEnabled():
+                label.setStyleSheet("color: black")
             
-    
-    
-    
-    
-    
+        for i in range(self.tabWidget.count()):
+            self.tabWidget.tabBar().setTabTextColor(i, QtGui.QColor(0,0,0))
+        
+        label_in_red = []
+        tabs_in_red = []
+        
+        ### check datasets
+        if self.dataset_gb_1.checkedButton() == None:
+            label_in_red.append(self.dataset_lb_1)
+            tabs_in_red.append(0)
+        
+        ### check fields
+        if self.field_vertical_layout.count() == 0:
+            tabs_in_red.append(0)
+        else:
+            if self.dataset_gb_2.checkedButton() == None:
+                label_in_red.append(self.dataset_lb_2)
+                tabs_in_red.append(0)
+        
+        ### check parameters
+        param_checked = False
+        if self.parameter_grid_layout.count() == 0:
+            tabs_in_red.append(1)
+        else:
+            for widget in self.parameter_cb:
+                if widget.isChecked():
+                    param_checked = True
+            if not param_checked:
+                label_in_red.append(self.parameters_lb_1)
+                tabs_in_red.append(1)
+        
+        ### check time period
+        if param_checked:
+            if self.time_lb_1.isEnabled() or self.time_lb_2.isEnabled() or self.time_lb_3.isEnabled():
+                if self.time_lb_1.isEnabled():
+                    time_checked = False
+                    for widget in self.time_checkboxes_list:
+                        if widget.isChecked():
+                            time_checked = True
+                if self.time_lb_2.isEnabled():
+                    step_checked = False
+                    for widget in self.step_checkboxes_list:
+                        if widget.isChecked():
+                            step_checked = True
+                if self.time_lb_3.isEnabled():
+                    period_checked = False
+                    if self.time_rb_1.isChecked():
+                        period_checked = True
+                    elif self.time_rb_2.isChecked():
+                        for widget in self.period_cb:
+                            if widget.isChecked():
+                                period_checked = True
+                if not time_checked:
+                    label_in_red.append(self.time_lb_1)
+                    tabs_in_red.append(2)
+                if not step_checked:
+                    label_in_red.append(self.time_lb_2)
+                    tabs_in_red.append(2)
+                if not period_checked:
+                    label_in_red.append(self.time_lb_3)
+                    tabs_in_red.append(2)
+        else:
+            tabs_in_red.append(2)
+        
+        ### check area
+        area_enabled = self.area_lb_1.isEnabled()
+        if area_enabled and self.area_cb_1.currentText() == 'Custom':
+            if self.area_ln_1.text() == '' or self.area_ln_2.text() == '' or self.area_ln_3.text() == '' or self.area_ln_4.text() == '':
+                label_in_red.append(self.area_lb_1)
+                tabs_in_red.append(3)
+        elif not area_enabled:
+            tabs_in_red.append(3)
+        
+        ### coloring labels and tabs
+        for label in label_in_red:
+            label.setStyleSheet("color: rgb(200,0,0);")
+        for tab in tabs_in_red:
+            self.tabWidget.tabBar().setTabTextColor(tab, QtGui.QColor(200,0,0))
+        
+        ### warning message
+        if label_in_red or tabs_in_red:
+            self.selectionWindow = MySelect()
+            x1, y1, w1, h1 = self.geometry().getRect()
+            _, _, w2, h2 = self.selectionWindow.geometry().getRect()
+            self.selectionWindow.setGeometry(x1 + w1/2 - w2/2, y1 + h1/2 - h2/2, w2, h2)
+            self.selectionWindow.setMinimumSize(QtCore.QSize(500, self.selectionWindow.sizeHint().height()))
+            self.selectionWindow.setMaximumSize(QtCore.QSize(500, self.selectionWindow.sizeHint().height()))
+            self.selectionWindow.exec_()
             
     def closeEvent(self, event):
         logging.debug('mainwindow.py - closeEvent')
@@ -129,6 +230,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.modified = True
             self.make_window_title()
 
+ 
     def check_downloader_update(self):
         logging.debug('mainwindow.py - check_downloader_update')
         if self.config_dict['OPTIONS'].getboolean('check_update'):

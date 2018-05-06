@@ -19,7 +19,7 @@ class CheckECMWFDownloaderOnline(Qt.QThread):
         logging.debug('thread_functions.py - CheckECMWFDownloaderOnline - run')
         url = 'https://api.github.com/repos/olivierpascalhenry/ECMWF-Data-Downloader/releases/latest'
         try:
-            json_object = requests.get(url=url).json() 
+            json_object = requests.get(url=url).json()
             if LooseVersion(_downloader_version) < LooseVersion(json_object['tag_name']):
                 self.finished.emit(json_object['assets'][0]['browser_download_url'])
             else:

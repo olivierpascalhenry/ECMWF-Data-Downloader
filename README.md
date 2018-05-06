@@ -1,6 +1,6 @@
 Version
 -------
-ECMWF Data Downloader 0.5.0
+ECMWF Data Downloader 0.6.0
 
 !!! NOT SUITED FOR PRODUCTION ENVIRONMENT !!! ONLY FOR TESTING PURPOSES !!!
 No API embedded at this time.
@@ -32,3 +32,4 @@ External libraries:
 PyQt5 v5.10+
 hurry.filesize v0.9+
 requests v0.13.9+
+selenium v3.11.0+ (only for database creation, not needed to launch ECMWF Data Downloader)

@@ -6,6 +6,7 @@ from ui.Ui_aboutwindow import Ui_aboutWindow
 from ui.Ui_logwindow import Ui_Changelog
 from ui.Ui_optionwindow import Ui_optionWindow
 from ui.Ui_storewindow import Ui_storeWindow
+from ui.Ui_selectionwindow import Ui_selectionWindow
 from functions.thread_functions import DownloadFile
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -102,8 +103,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.config_dict.set('CREDENTIALS', 'url', str(self.ow_lineEdit_2.text()))
         self.config_dict.set('CREDENTIALS', 'key', str(self.ow_lineEdit_3.text()))
         self.config_dict.set('CREDENTIALS', 'email', str(self.ow_lineEdit_4.text()))
-        
-        
         self.close_window()
     
     def info_button(self):
@@ -170,3 +169,15 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
         self.thread.stop()
         if self.cancel:
             os.remove(self.update_file)
+
+
+class MySelect(QtWidgets.QDialog, Ui_selectionWindow):
+    def __init__(self):
+        logging.debug('window_functions.py - MySelect - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.sw_okButton.clicked.connect(self.closeWindow)
+
+    def closeWindow(self):
+        logging.debug('window_functions.py - MySelect - closeWindow')
+        self.close()
