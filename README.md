@@ -29,7 +29,7 @@ Download sources and uncompress them somewhere on your hard drive. Open a termin
 
 External libraries:
 -------------------
-PyQt5 v5.10+
-hurry.filesize v0.9+
-requests v0.13.9+
-selenium v3.11.0+ (only for database creation, not needed to launch ECMWF Data Downloader)
+*PyQt5 v5.10+
+*hurry.filesize v0.9+
+*requests v0.13.9+
+*selenium v3.11.0+ (only for database creation, not needed to launch ECMWF Data Downloader)
