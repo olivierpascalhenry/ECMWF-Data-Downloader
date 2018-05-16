@@ -17,7 +17,7 @@ def object_init(self):
     self.period_cb = []
     self.field_rb = []
     self.parameter_cb = []
-    
+
 
 def info_button_text(self):
     logging.debug('material_functions.py - info_button_text')
@@ -37,8 +37,8 @@ def info_button_text(self):
                                   'ow_infoButton_6':('If checked, ECMWF Data Downloader displays information about the ECMWF web API '
                                                      + 'at startup.'),
                                   'ow_infoButton_7':'Activate this option to allow ECMWF Data Downloader to check for an update online.',
-        
-        }
+                                  'ow_infoButton_8':'A folder where to save the file/data downloaded on ECMWF server.',
+                                  }
 
 
 def dataset_data_information(self):
@@ -80,4 +80,5 @@ def dataset_data_information(self):
                                                              'Monthly Means of Daily Means':era_interim_daily_means_parameters,
                                                              'Monthly Means of Daily Forecast Accumulations':era_interim_daily_accumulation_parameters}},
                                 'ERA-Interim/LAND':{}}
+    
     

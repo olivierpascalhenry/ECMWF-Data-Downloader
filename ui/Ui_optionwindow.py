@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_optionWindow(object):
     def setupUi(self, optionWindow):
         optionWindow.setObjectName("optionWindow")
-        optionWindow.resize(710, 404)
-        optionWindow.setMinimumSize(QtCore.QSize(710, 404))
-        optionWindow.setMaximumSize(QtCore.QSize(710, 420))
+        optionWindow.resize(710, 446)
+        optionWindow.setMinimumSize(QtCore.QSize(710, 446))
+        optionWindow.setMaximumSize(QtCore.QSize(710, 446))
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -34,17 +34,207 @@ class Ui_optionWindow(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
-        self.ow_label_1 = QtWidgets.QLabel(optionWindow)
-        self.ow_label_1.setMinimumSize(QtCore.QSize(0, 27))
-        self.ow_label_1.setMaximumSize(QtCore.QSize(16777215, 27))
+        self.ow_label_4 = QtWidgets.QLabel(optionWindow)
+        self.ow_label_4.setMinimumSize(QtCore.QSize(0, 27))
+        self.ow_label_4.setMaximumSize(QtCore.QSize(16777215, 27))
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_label_1.setFont(font)
-        self.ow_label_1.setObjectName("ow_label_1")
-        self.gridLayout.addWidget(self.ow_label_1, 0, 0, 1, 1)
+        self.ow_label_4.setFont(font)
+        self.ow_label_4.setObjectName("ow_label_4")
+        self.gridLayout.addWidget(self.ow_label_4, 4, 0, 1, 1)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.ow_lineEdit_3 = QtWidgets.QLineEdit(optionWindow)
+        self.ow_lineEdit_3.setMinimumSize(QtCore.QSize(400, 27))
+        self.ow_lineEdit_3.setMaximumSize(QtCore.QSize(400, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_lineEdit_3.setFont(font)
+        self.ow_lineEdit_3.setStyleSheet("QLineEdit {\n"
+"    border-radius: 3px;\n"
+"    padding: 1px 4px 1px 4px;\n"
+"    background-color:  rgb(240, 240, 240);\n"
+"}")
+        self.ow_lineEdit_3.setObjectName("ow_lineEdit_3")
+        self.horizontalLayout_4.addWidget(self.ow_lineEdit_3)
+        spacerItem = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem)
+        self.ow_infoButton_4 = QtWidgets.QToolButton(optionWindow)
+        self.ow_infoButton_4.setMaximumSize(QtCore.QSize(27, 27))
+        self.ow_infoButton_4.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.ow_infoButton_4.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ow_infoButton_4.setIcon(icon1)
+        self.ow_infoButton_4.setIconSize(QtCore.QSize(23, 23))
+        self.ow_infoButton_4.setAutoRaise(False)
+        self.ow_infoButton_4.setObjectName("ow_infoButton_4")
+        self.horizontalLayout_4.addWidget(self.ow_infoButton_4)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem1)
+        self.gridLayout.addLayout(self.horizontalLayout_4, 4, 1, 1, 1)
+        self.ow_label_5 = QtWidgets.QLabel(optionWindow)
+        self.ow_label_5.setMinimumSize(QtCore.QSize(0, 27))
+        self.ow_label_5.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_label_5.setFont(font)
+        self.ow_label_5.setObjectName("ow_label_5")
+        self.gridLayout.addWidget(self.ow_label_5, 5, 0, 1, 1)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.ow_lineEdit_2 = QtWidgets.QLineEdit(optionWindow)
+        self.ow_lineEdit_2.setMinimumSize(QtCore.QSize(400, 27))
+        self.ow_lineEdit_2.setMaximumSize(QtCore.QSize(400, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_lineEdit_2.setFont(font)
+        self.ow_lineEdit_2.setStyleSheet("QLineEdit {\n"
+"    border-radius: 3px;\n"
+"    padding: 1px 4px 1px 4px;\n"
+"    background-color:  rgb(240, 240, 240);\n"
+"}")
+        self.ow_lineEdit_2.setObjectName("ow_lineEdit_2")
+        self.horizontalLayout_3.addWidget(self.ow_lineEdit_2)
+        spacerItem2 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem2)
+        self.ow_infoButton_3 = QtWidgets.QToolButton(optionWindow)
+        self.ow_infoButton_3.setMaximumSize(QtCore.QSize(27, 27))
+        self.ow_infoButton_3.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.ow_infoButton_3.setText("")
+        self.ow_infoButton_3.setIcon(icon1)
+        self.ow_infoButton_3.setIconSize(QtCore.QSize(23, 23))
+        self.ow_infoButton_3.setAutoRaise(False)
+        self.ow_infoButton_3.setObjectName("ow_infoButton_3")
+        self.horizontalLayout_3.addWidget(self.ow_infoButton_3)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem3)
+        self.gridLayout.addLayout(self.horizontalLayout_3, 3, 1, 1, 1)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        spacerItem4 = QtWidgets.QSpacerItem(14, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout.addItem(spacerItem4)
+        self.line_3 = QtWidgets.QFrame(optionWindow)
+        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_3.setObjectName("line_3")
+        self.verticalLayout.addWidget(self.line_3)
+        spacerItem5 = QtWidgets.QSpacerItem(14, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout.addItem(spacerItem5)
+        self.gridLayout.addLayout(self.verticalLayout, 2, 0, 1, 2)
+        self.ow_label_2 = QtWidgets.QLabel(optionWindow)
+        self.ow_label_2.setMinimumSize(QtCore.QSize(0, 27))
+        self.ow_label_2.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_label_2.setFont(font)
+        self.ow_label_2.setObjectName("ow_label_2")
+        self.gridLayout.addWidget(self.ow_label_2, 1, 0, 1, 1)
+        self.ow_label_3 = QtWidgets.QLabel(optionWindow)
+        self.ow_label_3.setMinimumSize(QtCore.QSize(0, 27))
+        self.ow_label_3.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_label_3.setFont(font)
+        self.ow_label_3.setObjectName("ow_label_3")
+        self.gridLayout.addWidget(self.ow_label_3, 3, 0, 1, 1)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.ow_lineEdit_1 = QtWidgets.QLineEdit(optionWindow)
+        self.ow_lineEdit_1.setMinimumSize(QtCore.QSize(400, 27))
+        self.ow_lineEdit_1.setMaximumSize(QtCore.QSize(400, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_lineEdit_1.setFont(font)
+        self.ow_lineEdit_1.setStyleSheet("QLineEdit {\n"
+"    border-radius: 3px;\n"
+"    padding: 1px 4px 1px 4px;\n"
+"    background-color:  rgb(240, 240, 240);\n"
+"}")
+        self.ow_lineEdit_1.setObjectName("ow_lineEdit_1")
+        self.horizontalLayout.addWidget(self.ow_lineEdit_1)
+        self.ow_openButton_1 = QtWidgets.QToolButton(optionWindow)
+        self.ow_openButton_1.setMaximumSize(QtCore.QSize(27, 27))
+        self.ow_openButton_1.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.ow_openButton_1.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("icons/open_popup_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ow_openButton_1.setIcon(icon2)
+        self.ow_openButton_1.setIconSize(QtCore.QSize(23, 23))
+        self.ow_openButton_1.setAutoRaise(False)
+        self.ow_openButton_1.setObjectName("ow_openButton_1")
+        self.horizontalLayout.addWidget(self.ow_openButton_1)
+        spacerItem6 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem6)
+        self.ow_infoButton_2 = QtWidgets.QToolButton(optionWindow)
+        self.ow_infoButton_2.setMaximumSize(QtCore.QSize(27, 27))
+        self.ow_infoButton_2.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.ow_infoButton_2.setText("")
+        self.ow_infoButton_2.setIcon(icon1)
+        self.ow_infoButton_2.setIconSize(QtCore.QSize(23, 23))
+        self.ow_infoButton_2.setAutoRaise(False)
+        self.ow_infoButton_2.setObjectName("ow_infoButton_2")
+        self.horizontalLayout.addWidget(self.ow_infoButton_2)
+        spacerItem7 = QtWidgets.QSpacerItem(13, 24, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem7)
+        self.gridLayout.addLayout(self.horizontalLayout, 1, 1, 1, 1)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.ow_comboBox_1 = QtWidgets.QComboBox(optionWindow)
@@ -124,8 +314,8 @@ class Ui_optionWindow(object):
         self.ow_comboBox_1.addItem("")
         self.ow_comboBox_1.addItem("")
         self.horizontalLayout_7.addWidget(self.ow_comboBox_1)
-        spacerItem = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem)
+        spacerItem8 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem8)
         self.ow_infoButton_1 = QtWidgets.QToolButton(optionWindow)
         self.ow_infoButton_1.setMaximumSize(QtCore.QSize(27, 27))
         self.ow_infoButton_1.setStyleSheet("QToolButton {\n"
@@ -139,215 +329,14 @@ class Ui_optionWindow(object):
 "    border: none;\n"
 "}")
         self.ow_infoButton_1.setText("")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ow_infoButton_1.setIcon(icon1)
         self.ow_infoButton_1.setIconSize(QtCore.QSize(23, 23))
         self.ow_infoButton_1.setAutoRaise(False)
         self.ow_infoButton_1.setObjectName("ow_infoButton_1")
         self.horizontalLayout_7.addWidget(self.ow_infoButton_1)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem1)
-        self.gridLayout.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
-        self.ow_label_2 = QtWidgets.QLabel(optionWindow)
-        self.ow_label_2.setMinimumSize(QtCore.QSize(0, 27))
-        self.ow_label_2.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_label_2.setFont(font)
-        self.ow_label_2.setObjectName("ow_label_2")
-        self.gridLayout.addWidget(self.ow_label_2, 1, 0, 1, 1)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.ow_lineEdit_1 = QtWidgets.QLineEdit(optionWindow)
-        self.ow_lineEdit_1.setMinimumSize(QtCore.QSize(400, 27))
-        self.ow_lineEdit_1.setMaximumSize(QtCore.QSize(400, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(9)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_lineEdit_1.setFont(font)
-        self.ow_lineEdit_1.setStyleSheet("QLineEdit {\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 4px 1px 4px;\n"
-"    background-color:  rgb(240, 240, 240);\n"
-"}")
-        self.ow_lineEdit_1.setObjectName("ow_lineEdit_1")
-        self.horizontalLayout.addWidget(self.ow_lineEdit_1)
-        self.ow_openButton_1 = QtWidgets.QToolButton(optionWindow)
-        self.ow_openButton_1.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_openButton_1.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        self.ow_openButton_1.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("icons/open_popup_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.ow_openButton_1.setIcon(icon2)
-        self.ow_openButton_1.setIconSize(QtCore.QSize(23, 23))
-        self.ow_openButton_1.setAutoRaise(False)
-        self.ow_openButton_1.setObjectName("ow_openButton_1")
-        self.horizontalLayout.addWidget(self.ow_openButton_1)
-        spacerItem2 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
-        self.ow_infoButton_2 = QtWidgets.QToolButton(optionWindow)
-        self.ow_infoButton_2.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_2.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        self.ow_infoButton_2.setText("")
-        self.ow_infoButton_2.setIcon(icon1)
-        self.ow_infoButton_2.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_2.setAutoRaise(False)
-        self.ow_infoButton_2.setObjectName("ow_infoButton_2")
-        self.horizontalLayout.addWidget(self.ow_infoButton_2)
-        spacerItem3 = QtWidgets.QSpacerItem(13, 24, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem3)
-        self.gridLayout.addLayout(self.horizontalLayout, 1, 1, 1, 1)
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setObjectName("verticalLayout")
-        spacerItem4 = QtWidgets.QSpacerItem(14, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout.addItem(spacerItem4)
-        self.line_3 = QtWidgets.QFrame(optionWindow)
-        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_3.setObjectName("line_3")
-        self.verticalLayout.addWidget(self.line_3)
-        spacerItem5 = QtWidgets.QSpacerItem(14, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout.addItem(spacerItem5)
-        self.gridLayout.addLayout(self.verticalLayout, 2, 0, 1, 2)
-        self.ow_label_3 = QtWidgets.QLabel(optionWindow)
-        self.ow_label_3.setMinimumSize(QtCore.QSize(0, 27))
-        self.ow_label_3.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_label_3.setFont(font)
-        self.ow_label_3.setObjectName("ow_label_3")
-        self.gridLayout.addWidget(self.ow_label_3, 3, 0, 1, 1)
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.ow_lineEdit_2 = QtWidgets.QLineEdit(optionWindow)
-        self.ow_lineEdit_2.setMinimumSize(QtCore.QSize(400, 27))
-        self.ow_lineEdit_2.setMaximumSize(QtCore.QSize(400, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(9)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_lineEdit_2.setFont(font)
-        self.ow_lineEdit_2.setStyleSheet("QLineEdit {\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 4px 1px 4px;\n"
-"    background-color:  rgb(240, 240, 240);\n"
-"}")
-        self.ow_lineEdit_2.setObjectName("ow_lineEdit_2")
-        self.horizontalLayout_3.addWidget(self.ow_lineEdit_2)
-        spacerItem6 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem6)
-        self.ow_infoButton_3 = QtWidgets.QToolButton(optionWindow)
-        self.ow_infoButton_3.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_3.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        self.ow_infoButton_3.setText("")
-        self.ow_infoButton_3.setIcon(icon1)
-        self.ow_infoButton_3.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_3.setAutoRaise(False)
-        self.ow_infoButton_3.setObjectName("ow_infoButton_3")
-        self.horizontalLayout_3.addWidget(self.ow_infoButton_3)
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem7)
-        self.gridLayout.addLayout(self.horizontalLayout_3, 3, 1, 1, 1)
-        self.ow_label_4 = QtWidgets.QLabel(optionWindow)
-        self.ow_label_4.setMinimumSize(QtCore.QSize(0, 27))
-        self.ow_label_4.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_label_4.setFont(font)
-        self.ow_label_4.setObjectName("ow_label_4")
-        self.gridLayout.addWidget(self.ow_label_4, 4, 0, 1, 1)
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.ow_lineEdit_3 = QtWidgets.QLineEdit(optionWindow)
-        self.ow_lineEdit_3.setMinimumSize(QtCore.QSize(400, 27))
-        self.ow_lineEdit_3.setMaximumSize(QtCore.QSize(400, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(9)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_lineEdit_3.setFont(font)
-        self.ow_lineEdit_3.setStyleSheet("QLineEdit {\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 4px 1px 4px;\n"
-"    background-color:  rgb(240, 240, 240);\n"
-"}")
-        self.ow_lineEdit_3.setObjectName("ow_lineEdit_3")
-        self.horizontalLayout_4.addWidget(self.ow_lineEdit_3)
-        spacerItem8 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem8)
-        self.ow_infoButton_4 = QtWidgets.QToolButton(optionWindow)
-        self.ow_infoButton_4.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_4.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        self.ow_infoButton_4.setText("")
-        self.ow_infoButton_4.setIcon(icon1)
-        self.ow_infoButton_4.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_4.setAutoRaise(False)
-        self.ow_infoButton_4.setObjectName("ow_infoButton_4")
-        self.horizontalLayout_4.addWidget(self.ow_infoButton_4)
         spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem9)
-        self.gridLayout.addLayout(self.horizontalLayout_4, 4, 1, 1, 1)
-        self.ow_label_5 = QtWidgets.QLabel(optionWindow)
-        self.ow_label_5.setMinimumSize(QtCore.QSize(0, 27))
-        self.ow_label_5.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.ow_label_5.setFont(font)
-        self.ow_label_5.setObjectName("ow_label_5")
-        self.gridLayout.addWidget(self.ow_label_5, 5, 0, 1, 1)
+        self.horizontalLayout_7.addItem(spacerItem9)
+        self.gridLayout.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.ow_lineEdit_4 = QtWidgets.QLineEdit(optionWindow)
@@ -389,16 +378,97 @@ class Ui_optionWindow(object):
         spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem11)
         self.gridLayout.addLayout(self.horizontalLayout_5, 5, 1, 1, 1)
+        self.ow_label_1 = QtWidgets.QLabel(optionWindow)
+        self.ow_label_1.setMinimumSize(QtCore.QSize(0, 27))
+        self.ow_label_1.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_label_1.setFont(font)
+        self.ow_label_1.setObjectName("ow_label_1")
+        self.gridLayout.addWidget(self.ow_label_1, 0, 0, 1, 1)
+        self.ow_label_6 = QtWidgets.QLabel(optionWindow)
+        self.ow_label_6.setMinimumSize(QtCore.QSize(0, 27))
+        self.ow_label_6.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_label_6.setFont(font)
+        self.ow_label_6.setObjectName("ow_label_6")
+        self.gridLayout.addWidget(self.ow_label_6, 6, 0, 1, 1)
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.ow_lineEdit_5 = QtWidgets.QLineEdit(optionWindow)
+        self.ow_lineEdit_5.setMinimumSize(QtCore.QSize(400, 27))
+        self.ow_lineEdit_5.setMaximumSize(QtCore.QSize(400, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.ow_lineEdit_5.setFont(font)
+        self.ow_lineEdit_5.setStyleSheet("QLineEdit {\n"
+"    border-radius: 3px;\n"
+"    padding: 1px 4px 1px 4px;\n"
+"    background-color:  rgb(240, 240, 240);\n"
+"}")
+        self.ow_lineEdit_5.setObjectName("ow_lineEdit_5")
+        self.horizontalLayout_9.addWidget(self.ow_lineEdit_5)
+        self.ow_openButton_2 = QtWidgets.QToolButton(optionWindow)
+        self.ow_openButton_2.setMaximumSize(QtCore.QSize(27, 27))
+        self.ow_openButton_2.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.ow_openButton_2.setText("")
+        self.ow_openButton_2.setIcon(icon2)
+        self.ow_openButton_2.setIconSize(QtCore.QSize(23, 23))
+        self.ow_openButton_2.setAutoRaise(False)
+        self.ow_openButton_2.setObjectName("ow_openButton_2")
+        self.horizontalLayout_9.addWidget(self.ow_openButton_2)
+        spacerItem12 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem12)
+        self.ow_infoButton_8 = QtWidgets.QToolButton(optionWindow)
+        self.ow_infoButton_8.setMaximumSize(QtCore.QSize(27, 27))
+        self.ow_infoButton_8.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.ow_infoButton_8.setText("")
+        self.ow_infoButton_8.setIcon(icon1)
+        self.ow_infoButton_8.setIconSize(QtCore.QSize(23, 23))
+        self.ow_infoButton_8.setAutoRaise(False)
+        self.ow_infoButton_8.setObjectName("ow_infoButton_8")
+        self.horizontalLayout_9.addWidget(self.ow_infoButton_8)
+        spacerItem13 = QtWidgets.QSpacerItem(13, 24, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem13)
+        self.gridLayout.addLayout(self.horizontalLayout_9, 6, 1, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout)
-        spacerItem12 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_2.addItem(spacerItem12)
+        spacerItem14 = QtWidgets.QSpacerItem(13, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem14)
         self.line = QtWidgets.QFrame(optionWindow)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.verticalLayout_2.addWidget(self.line)
-        spacerItem13 = QtWidgets.QSpacerItem(14, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_2.addItem(spacerItem13)
+        spacerItem15 = QtWidgets.QSpacerItem(14, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem15)
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.ow_checkBox_1 = QtWidgets.QCheckBox(optionWindow)
@@ -410,11 +480,11 @@ class Ui_optionWindow(object):
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         self.ow_checkBox_1.setFont(font)
-        self.ow_checkBox_1.setChecked(True)
+        self.ow_checkBox_1.setChecked(False)
         self.ow_checkBox_1.setObjectName("ow_checkBox_1")
         self.horizontalLayout_8.addWidget(self.ow_checkBox_1)
-        spacerItem14 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem14)
+        spacerItem16 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem16)
         self.ow_infoButton_6 = QtWidgets.QToolButton(optionWindow)
         self.ow_infoButton_6.setMaximumSize(QtCore.QSize(27, 27))
         self.ow_infoButton_6.setStyleSheet("QToolButton {\n"
@@ -433,8 +503,8 @@ class Ui_optionWindow(object):
         self.ow_infoButton_6.setAutoRaise(False)
         self.ow_infoButton_6.setObjectName("ow_infoButton_6")
         self.horizontalLayout_8.addWidget(self.ow_infoButton_6)
-        spacerItem15 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem15)
+        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem17)
         self.verticalLayout_2.addLayout(self.horizontalLayout_8)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
@@ -449,8 +519,8 @@ class Ui_optionWindow(object):
         self.ow_checkBox_2.setFont(font)
         self.ow_checkBox_2.setObjectName("ow_checkBox_2")
         self.horizontalLayout_6.addWidget(self.ow_checkBox_2)
-        spacerItem16 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem16)
+        spacerItem18 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem18)
         self.ow_infoButton_7 = QtWidgets.QToolButton(optionWindow)
         self.ow_infoButton_7.setMaximumSize(QtCore.QSize(27, 27))
         self.ow_infoButton_7.setStyleSheet("QToolButton {\n"
@@ -469,15 +539,15 @@ class Ui_optionWindow(object):
         self.ow_infoButton_7.setAutoRaise(False)
         self.ow_infoButton_7.setObjectName("ow_infoButton_7")
         self.horizontalLayout_6.addWidget(self.ow_infoButton_7)
-        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem17)
+        spacerItem19 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem19)
         self.verticalLayout_2.addLayout(self.horizontalLayout_6)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem18)
+        spacerItem20 = QtWidgets.QSpacerItem(138, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem20)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        spacerItem19 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem19)
+        spacerItem21 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem21)
         self.ow_okButton = QtWidgets.QToolButton(optionWindow)
         self.ow_okButton.setMinimumSize(QtCore.QSize(90, 27))
         self.ow_okButton.setMaximumSize(QtCore.QSize(90, 27))
@@ -511,8 +581,8 @@ class Ui_optionWindow(object):
 "}")
         self.ow_okButton.setObjectName("ow_okButton")
         self.horizontalLayout_2.addWidget(self.ow_okButton)
-        spacerItem20 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem20)
+        spacerItem22 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem22)
         self.ow_cancelButton = QtWidgets.QToolButton(optionWindow)
         self.ow_cancelButton.setMinimumSize(QtCore.QSize(90, 27))
         self.ow_cancelButton.setMaximumSize(QtCore.QSize(90, 27))
@@ -546,8 +616,8 @@ class Ui_optionWindow(object):
 "}")
         self.ow_cancelButton.setObjectName("ow_cancelButton")
         self.horizontalLayout_2.addWidget(self.ow_cancelButton)
-        spacerItem21 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem21)
+        spacerItem23 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem23)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
         self.gridLayout_2.addLayout(self.verticalLayout_2, 0, 0, 1, 1)
 
@@ -557,16 +627,17 @@ class Ui_optionWindow(object):
     def retranslateUi(self, optionWindow):
         _translate = QtCore.QCoreApplication.translate
         optionWindow.setWindowTitle(_translate("optionWindow", "Options"))
-        self.ow_label_1.setText(_translate("optionWindow", "Logging level:"))
+        self.ow_label_4.setText(_translate("optionWindow", "User Key:"))
+        self.ow_label_5.setText(_translate("optionWindow", "User Email:"))
+        self.ow_label_2.setText(_translate("optionWindow", "Path of the logging file:"))
+        self.ow_label_3.setText(_translate("optionWindow", "API URL:"))
         self.ow_comboBox_1.setItemText(0, _translate("optionWindow", "DEBUG"))
         self.ow_comboBox_1.setItemText(1, _translate("optionWindow", "INFO"))
         self.ow_comboBox_1.setItemText(2, _translate("optionWindow", "WARNING"))
         self.ow_comboBox_1.setItemText(3, _translate("optionWindow", "CRITICAL"))
         self.ow_comboBox_1.setItemText(4, _translate("optionWindow", "ERROR"))
-        self.ow_label_2.setText(_translate("optionWindow", "Path of the logging file:"))
-        self.ow_label_3.setText(_translate("optionWindow", "API URL:"))
-        self.ow_label_4.setText(_translate("optionWindow", "User Key:"))
-        self.ow_label_5.setText(_translate("optionWindow", "User Email:"))
+        self.ow_label_1.setText(_translate("optionWindow", "Logging level:"))
+        self.ow_label_6.setText(_translate("optionWindow", "ECMWF file folder:"))
         self.ow_checkBox_1.setText(_translate("optionWindow", "Display ECMWF web API information at startup"))
         self.ow_checkBox_2.setText(_translate("optionWindow", "Check ECMWF Data Downloader updates on GitHub"))
         self.ow_okButton.setText(_translate("optionWindow", "Ok"))

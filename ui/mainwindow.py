@@ -2,13 +2,16 @@ import logging
 import os
 import tempfile
 import time
-from PyQt5 import QtCore, QtWidgets, QtGui, Qt
+from PyQt5 import QtCore, QtWidgets, QtGui
 from ui.Ui_mainwindow import Ui_MainWindow
 from ui._version import _downloader_version, _eclipse_version, _py_version, _qt_version
-from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate, MySelect
+from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate, MySelect, MyQuery
 from functions.material_functions import info_button_text, object_init, dataset_data_information
 from functions.thread_functions import CheckECMWFDownloaderOnline
-from functions.gui_functions import populate_period_elements, populate_fields, hide_area_map, set_visibility_area_map
+from functions.gui_functions import populate_period_elements, populate_fields, hide_area_map, set_visibility_area_map, clean_stylesheet_labels
+from functions.gui_functions import clean_stylesheet_dataset, clean_stylesheet_time, clean_stylesheet_step, clean_stylesheet_period
+from functions.checking_functions import tabs_checking
+from functions.xml_functions import save_xml_query, open_xml_query
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -26,11 +29,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.area_cb_1.setItemDelegate(itemDelegate)
         self.area_cb_2.setItemDelegate(itemDelegate)
         for widget in self.dataset_gb_1.buttons():
-            widget.clicked.connect(lambda: populate_fields(self))
-        self.time_rb_1.clicked.connect(lambda: populate_period_elements(self))
-        self.time_rb_2.clicked.connect(lambda: populate_period_elements(self))
-        self.area_cb_1.activated.connect(lambda: set_visibility_area_map(self))
-        self.download_bt_1.clicked.connect(lambda: self.check_tabs_for_download())
+            widget.toggled.connect(lambda: populate_fields(self))
+            widget.toggled.connect(lambda: clean_stylesheet_dataset(self))
+        for widget in self.time_bg_1.buttons():
+            widget.toggled.connect(lambda: clean_stylesheet_time(self))
+            widget.toggled.connect(self.set_modified)
+        for widget in self.step_bg_1.buttons():
+            widget.toggled.connect(lambda: clean_stylesheet_step(self))
+            widget.toggled.connect(self.set_modified)
+        for widget in self.period_bg_1.buttons():
+            widget.toggled.connect(lambda: populate_period_elements(self))
+            widget.toggled.connect(lambda: clean_stylesheet_period(self))
+            widget.toggled.connect(self.set_modified)
+        for widget in self.file_bg_1.buttons():
+            widget.toggled.connect(self.set_modified)
+        self.area_cb_1.currentIndexChanged.connect(lambda: set_visibility_area_map(self))
+        self.area_cb_1.currentIndexChanged.connect(self.set_modified)
+        self.area_cb_2.currentIndexChanged.connect(self.set_modified)
+        self.area_ln_5.textChanged.connect(self.set_modified)
+        self.time_de_1.dateChanged.connect(self.set_modified)
+        self.time_de_2.dateChanged.connect(self.set_modified)
+        #self.download_bt_1.clicked.connect(lambda: self.check_tabs_for_download())
         self.check_downloader_update()
         self.make_window_title()
         logging.info('mainwindow.py - UI initialized ...')
@@ -43,11 +62,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     @QtCore.pyqtSlot()
     def on_actionSave_triggered(self):
-        print('Not available yet')
+        self.save_document()
     
     @QtCore.pyqtSlot()
     def on_actionOpen_triggered(self):
-        print('Not available yet')
+        self.open_document()
     
     @QtCore.pyqtSlot()
     def on_actionAbout_triggered(self):
@@ -70,11 +89,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         text = ("The ECMWF Data Downloader v" + _downloader_version + " was developed by Olivier Henry"
                 + ", using Eclipse " + _eclipse_version + ", Python " + _py_version + " and PyQt "
                 + _qt_version + ". It was designed to help researchers to download data from ECMWF dif"
-                + "ferent projects by using the official web API. The API used in this program is "
-                + "developed and maintained by ECMWF (https://software.ecmwf.int/wiki/display/WEBAPI/"
-                + "Access+ECMWF+Public+Datasets), and its code has been integrated in a threaded "
-                + "function.")
-
+                + "ferent projects by using the official ECMWF web API.")
         self.aboutWindow = MyAbout(text)
         x1, y1, w1, h1 = self.geometry().getRect()
         _, _, w2, h2 = self.aboutWindow.geometry().getRect()
@@ -110,95 +125,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.config_dict.write(config_file)
             logging.getLogger().setLevel(self.config_dict.get('LOG', 'level'))
             self.check_downloader_update()
-
+    
+    def save_document(self):
+        logging.debug('mainwindow.py - save_document')
+        filename = self.get_file_name('save')
+        if filename:
+            save_xml_query(self, filename)
+    
+    def open_document(self):
+        logging.debug('mainwindow.py - open_document')
+        filename = self.get_file_name('open')
+        if filename:
+            open_xml_query(self, filename)
+    
     def check_tabs_for_download(self):
         logging.debug('mainwindow.py - check_tabs_for_download')
-        labels = self.findChildren(QtWidgets.QLabel)
-        for label in labels:
-            if label.isEnabled():
-                label.setStyleSheet("color: black")
-            
-        for i in range(self.tabWidget.count()):
-            self.tabWidget.tabBar().setTabTextColor(i, QtGui.QColor(0,0,0))
-        
-        label_in_red = []
-        tabs_in_red = []
-        
-        ### check datasets
-        if self.dataset_gb_1.checkedButton() == None:
-            label_in_red.append(self.dataset_lb_1)
-            tabs_in_red.append(0)
-        
-        ### check fields
-        if self.field_vertical_layout.count() == 0:
-            tabs_in_red.append(0)
-        else:
-            if self.dataset_gb_2.checkedButton() == None:
-                label_in_red.append(self.dataset_lb_2)
-                tabs_in_red.append(0)
-        
-        ### check parameters
-        param_checked = False
-        if self.parameter_grid_layout.count() == 0:
-            tabs_in_red.append(1)
-        else:
-            for widget in self.parameter_cb:
-                if widget.isChecked():
-                    param_checked = True
-            if not param_checked:
-                label_in_red.append(self.parameters_lb_1)
-                tabs_in_red.append(1)
-        
-        ### check time period
-        if param_checked:
-            if self.time_lb_1.isEnabled() or self.time_lb_2.isEnabled() or self.time_lb_3.isEnabled():
-                if self.time_lb_1.isEnabled():
-                    time_checked = False
-                    for widget in self.time_checkboxes_list:
-                        if widget.isChecked():
-                            time_checked = True
-                if self.time_lb_2.isEnabled():
-                    step_checked = False
-                    for widget in self.step_checkboxes_list:
-                        if widget.isChecked():
-                            step_checked = True
-                if self.time_lb_3.isEnabled():
-                    period_checked = False
-                    if self.time_rb_1.isChecked():
-                        period_checked = True
-                    elif self.time_rb_2.isChecked():
-                        for widget in self.period_cb:
-                            if widget.isChecked():
-                                period_checked = True
-                if not time_checked:
-                    label_in_red.append(self.time_lb_1)
-                    tabs_in_red.append(2)
-                if not step_checked:
-                    label_in_red.append(self.time_lb_2)
-                    tabs_in_red.append(2)
-                if not period_checked:
-                    label_in_red.append(self.time_lb_3)
-                    tabs_in_red.append(2)
-        else:
-            tabs_in_red.append(2)
-        
-        ### check area
-        area_enabled = self.area_lb_1.isEnabled()
-        if area_enabled and self.area_cb_1.currentText() == 'Custom':
-            if self.area_ln_1.text() == '' or self.area_ln_2.text() == '' or self.area_ln_3.text() == '' or self.area_ln_4.text() == '':
-                label_in_red.append(self.area_lb_1)
-                tabs_in_red.append(3)
-        elif not area_enabled:
-            tabs_in_red.append(3)
-        
-        ### coloring labels and tabs
-        for label in label_in_red:
-            label.setStyleSheet("color: rgb(200,0,0);")
-        for tab in tabs_in_red:
-            self.tabWidget.tabBar().setTabTextColor(tab, QtGui.QColor(200,0,0))
-        
-        ### warning message
-        if label_in_red or tabs_in_red:
+        checking_passed = tabs_checking(self)
+        if not checking_passed:
             self.selectionWindow = MySelect()
             x1, y1, w1, h1 = self.geometry().getRect()
             _, _, w2, h2 = self.selectionWindow.geometry().getRect()
@@ -206,30 +149,38 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.selectionWindow.setMinimumSize(QtCore.QSize(500, self.selectionWindow.sizeHint().height()))
             self.selectionWindow.setMaximumSize(QtCore.QSize(500, self.selectionWindow.sizeHint().height()))
             self.selectionWindow.exec_()
-            
+        else:
+            self.download_ecmwf_data()
+    
+    def download_ecmwf_data(self):
+        logging.debug('mainwindow.py - download_ecmwf_data')
+        '''self.query =  # add function to translate user inputs into query
+        self.queryWindow = MyQuery(self.query, self.config_dict)
+        x1, y1, w1, h1 = self.geometry().getRect()
+        _, _, w2, h2 = self.queryWindow.geometry().getRect()
+        x2 = x1 + w1/2 - w2/2
+        y2 = y1 + h1/2 - h2/2
+        self.queryWindow.setGeometry(x2, y2, w2, h2)
+        self.queryWindow.exec_()'''
+    
     def closeEvent(self, event):
         logging.debug('mainwindow.py - closeEvent')
         self.close()
 
-
     def make_window_title(self):
         logging.debug('mainwindow.py - make_window_title - self.modified ' + str(self.modified))
-        '''title_string = 'Prosim737 Updater v' + _updater_version
-        saved_string = ''
+        title_string = 'ECMWF Data Downloader v' + _downloader_version
         modified_string = ''
-        if not self.saved:
-            saved_string = ' - unsaved'
         if self.modified:
             modified_string = ' - modified'
-        title_string = title_string + saved_string + modified_string
-        self.setWindowTitle(title_string)'''
+        title_string = title_string + modified_string
+        self.setWindowTitle(title_string)
 
     def set_modified(self):
         logging.debug('mainwindow.py - set_modified')
         if not self.modified:
             self.modified = True
             self.make_window_title()
-
  
     def check_downloader_update(self):
         logging.debug('mainwindow.py - check_downloader_update')
@@ -278,4 +229,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 os.startfile(temp_folder + '\\' + self.link_latest_version[self.link_latest_version.rfind('/')+1:])
                 time.sleep(0.1)
                 self.close()
+    
+    def get_file_name(self, action):
+        logging.debug('mainwindow.py - get_file_name')
+        file_dialog = QtWidgets.QFileDialog()
+        file_dialog.setDefaultSuffix('xml')
+        if action == 'save':
+            file_name, _ = file_dialog.getSaveFileName(self, 'Save XML File', '', filter='XML Files (*.xml)')
+        elif action == 'open':
+            file_name, _ = file_dialog.getOpenFileName(self, 'Open XML File', '', filter='XML Files (*.xml)')
+        logging.debug('mainwindow.py - get_file_name - file_name ' + file_name)
+        return file_name
     

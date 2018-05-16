@@ -7,7 +7,9 @@ from ui.Ui_logwindow import Ui_Changelog
 from ui.Ui_optionwindow import Ui_optionWindow
 from ui.Ui_storewindow import Ui_storeWindow
 from ui.Ui_selectionwindow import Ui_selectionWindow
-from functions.thread_functions import DownloadFile
+from ui.Ui_downloadwindow import Ui_downloadWindow
+from ui.Ui_cancelwindow import Ui_cancelWindow
+from functions.thread_functions import DownloadFile, ECMWFDataDownloadThread
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 
@@ -62,6 +64,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_okButton.clicked.connect(self.save_and_close)
         self.ow_cancelButton.clicked.connect(self.close_window)
         self.ow_openButton_1.clicked.connect(self.get_directory)
+        self.ow_openButton_2.clicked.connect(self.get_directory)
         all_info_boxes = self.findChildren(QtWidgets.QToolButton,)
         for widget in all_info_boxes:
             if 'infoButton' in widget.objectName():
@@ -78,20 +81,21 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         url = self.config_dict.get('CREDENTIALS', 'url')
         key = self.config_dict.get('CREDENTIALS', 'key')
         email = self.config_dict.get('CREDENTIALS', 'email')
+        folder = self.config_dict.get('CREDENTIALS', 'folder')
         self.ow_comboBox_1.setCurrentIndex(self.ow_comboBox_1.findText(log_level))
         self.ow_lineEdit_1.setText(log_path)
         self.ow_lineEdit_2.setText(url)
         self.ow_lineEdit_3.setText(key)
         self.ow_lineEdit_4.setText(email)
+        self.ow_lineEdit_5.setText(folder)
         self.ow_checkBox_1.setChecked(display_api)
         self.ow_checkBox_2.setChecked(check_update)
     
     def get_directory(self):
-        logging.debug('window_functions.py - MyOptions - get_directory invoked')
+        logging.debug('window_functions.py - MyOptions - get_directory')
         file_dialog = QtWidgets.QFileDialog()
         out_dir = file_dialog.getExistingDirectory(self, "Select Directory")
         self.ow_lineEdit_1.setText(str(out_dir.replace('/','\\')))
-        logging.debug('window_functions.py - MyOptions - get_directory: ' + str(out_dir))
     
     def save_and_close(self):
         logging.debug('window_functions.py - MyOptions - save_and_close')
@@ -103,6 +107,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.config_dict.set('CREDENTIALS', 'url', str(self.ow_lineEdit_2.text()))
         self.config_dict.set('CREDENTIALS', 'key', str(self.ow_lineEdit_3.text()))
         self.config_dict.set('CREDENTIALS', 'email', str(self.ow_lineEdit_4.text()))
+        self.config_dict.set('CREDENTIALS', 'folder', str(self.ow_lineEdit_5.text()))
         self.close_window()
     
     def info_button(self):
@@ -180,4 +185,104 @@ class MySelect(QtWidgets.QDialog, Ui_selectionWindow):
 
     def closeWindow(self):
         logging.debug('window_functions.py - MySelect - closeWindow')
+        self.close()
+        
+        
+class MyQuery(QtWidgets.QDialog, Ui_downloadWindow):
+    def __init__(self, query, config_dict):
+        logging.debug('window_functions.py - MyQuery - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.query = query
+        self.config_dict = config_dict
+        self.browser_text = []
+        self.download_data()
+        self.dw_button.clicked.connect(self.cancel_window)
+    
+    def download_data(self):
+        logging.debug('window_functions.py - MyQuery - download_data')
+        api_url = self.config_dict.get('CREDENTIALS', 'url')
+        api_key = self.config_dict.get('CREDENTIALS', 'key')
+        api_email = self.config_dict.get('CREDENTIALS', 'email')
+        file_folder = self.config_dict.get('CREDENTIALS', 'folder')
+        self.thread = ECMWFDataDownloadThread(self.query, api_url, api_key, api_email, file_folder)
+        self.thread.download_update.connect(self.update_progress)
+        self.thread.download_done.connect(self.close)
+        self.thread.download_failed.connect(self.download_failed)
+        self.thread.start()
+    
+    def update_progress(self, val):
+        self.update_browser(val['browser_text'])
+        self.update_progress_bar(val['progress'])
+        self.update_bar_text(val['bar_text'])
+    
+    def update_browser(self, text):
+        if text:
+            self.browser_text.append(text)
+            string = ''
+            for t in self.browser_text:
+                string += t + '<br>'
+            self.dw_browser.setText(string)
+            self.dw_browser.moveCursor(QtGui.QTextCursor.End)
+    
+    def update_progress_bar(self, val):
+        self.dw_progress.setValue(val)
+    
+    def update_bar_text(self, string):
+        self.dw_label.setText(string)
+    
+    def cancel_window(self):
+        logging.debug('window_functions.py - MyQuery - cancel_window')
+        if not self.thread.downloading:
+            self.cancelWindow = MyCancel()
+            x1, y1, w1, h1 = self.geometry().getRect()
+            _, _, w2, h2 = self.cancelWindow.geometry().getRect()
+            x2 = x1 + w1/2 - w2/2
+            y2 = y1 + h1/2 - h2/2
+            self.cancelWindow.setGeometry(x2, y2, w2, h2)
+            self.cancelWindow.exec_()
+            if self.cancelWindow.cancel:
+                self.close()
+        else:
+            self.cancel_download()
+    
+    def cancel_download(self):
+        logging.debug('window_functions.py - MyQuery - cancel_download')
+        self.thread.cancel_download()
+        time.sleep(0.25)
+        self.close()
+        
+    def download_failed(self, val):
+        logging.debug('window_functions.py - MyQuery - download_failed')
+        self.update_progress_bar(0)
+        self.dw_label.setText('Download failed')
+        self.update_browser(val)
+        self.dw_button.setText('Quit')
+        self.dw_button.clicked.disconnect(self.cancel_window)
+        self.dw_button.clicked.connect(self.close)
+        
+    def closeEvent(self, event):
+        logging.debug('window_functions.py - MyQuery - closeEvent')
+        self.thread.download_update.disconnect(self.update_progress)
+        self.thread.download_done.disconnect(self.close)
+        self.thread.download_failed.disconnect(self.download_failed)
+        self.thread.stop()
+
+
+class MyCancel(QtWidgets.QDialog, Ui_cancelWindow):
+    def __init__(self):
+        logging.debug('window_functions.py - MyCancel - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.cancel = False
+        self.cw_okButton.clicked.connect(self.closeWindow)
+        self.cw_cancelButton.clicked.connect(self.set_cancel)
+        
+    def set_cancel(self):
+        logging.debug('window_functions.py - MyCancel - set_cancel')
+        self.cancel = True
+        self.closeWindow()
+    
+    def closeWindow(self):
+        logging.debug('window_functions.py - MyCancel - closeWindow')
         self.close()

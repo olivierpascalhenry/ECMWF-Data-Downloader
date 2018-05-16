@@ -26,7 +26,8 @@ def launch_prosim_updater(path):
                                   }
         config_dict['CREDENTIALS'] = {'url':'https://api.ecmwf.int/v1',
                                       'key':'',
-                                      'email':''
+                                      'email':'',
+                                      'folder':''
                                       }
         with open(os.path.join(path, 'ecmwf_downloader.ini'), 'w') as configfile:
             config_dict.write(configfile)

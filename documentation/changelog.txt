@@ -2,6 +2,29 @@
 CHANGELOG
 =========
 
+To do list:
+  - add a specific way to manage update and update download based on OS (linux, windows, macos).
+
+
+May 16 2018, Release version 0.7
+================================
+Version for testing purposes. A first version of a function to connect to the ECMWF API has been added and tested with a simple query. As the function to translate user inputs into a query is not ready yet, it has been disabled for now (but it is present in the code).
+
+  ADDED:
+    - a custom thread, based on requests, has been integrated to donwload data from ECMWF servers with the official web API.
+    - a function to save the inputs of the user for a query as an xml file.
+    - a function to open an xml file containing the inputs of the user for a query.
+    - a first version of a function to connect to the ECMWF API has been added.
+
+  FIXED:
+    - no icon for the download window.
+    - fixed the automatic naming of the checkboxes involved in the time period section.
+  
+  MODIFIED:
+    - improved logic between tabs.
+    - improved use of stylesheet for the checking function.
+
+
 May 6 2018, Release version 0.6
 ===============================
 Version for testing purposes. No ECMWF API implemented at this time.
