@@ -1,6 +1,6 @@
 Version
 -------
-ECMWF Data Downloader 0.7.0
+ECMWF Data Downloader 0.7.1
 
 !!! NOT SUITED FOR PRODUCTION ENVIRONMENT !!! ONLY FOR TESTING PURPOSES !!!
 No API embedded at this time.
@@ -14,12 +14,12 @@ ECMWF Data Downloader is an open-source tool to help users to download data from
 Compatibility:
 --------------
     - sources : linux, windows, macos
-    - binaries : windows
+    - binaries : linux, windows
 
 
 Install instructions for binaries:
 ---------------------------------------
-Download and install the last binary file in the Release directory. Actually, the binary file is only compatible with Windows (from Windows 7 32). The software should be installed outside the Program Files directory to avoid issues with Windows admin protections.
+Download and install the last binary file in the Release directory. Actually, the binary file is only compatible with Windows (from Windows 7 32) and Linux (from Ubuntu 14.04). The software should be installed in the Home directory for Linux, and outside the Program Files directory for Windows to avoid issues with Windows admin protections.
 
 
 Install instructions for sources:

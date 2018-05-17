@@ -1,1 +1,0 @@
-the interface of ECMWF Data Downloader has been developed with Qt Creator 4.5.2

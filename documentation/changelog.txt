@@ -2,10 +2,15 @@
 CHANGELOG
 =========
 
-To do list:
-  - add a specific way to manage update and update download based on OS (linux, windows, macos).
 
-
+May 17 2018, Release version 0.7.1
+==================================
+Version for testing purposes. A version dedicated to Linux has been built.
+  
+  ADDED:
+    - a specific way to manage update and update download based on OS (linux, windows) has been introduced. The automatic update is available on windows, but on linux the user has to unzip the package and install it himself.
+  
+  
 May 16 2018, Release version 0.7
 ================================
 Version for testing purposes. A first version of a function to connect to the ECMWF API has been added and tested with a simple query. As the function to translate user inputs into a query is not ready yet, it has been disabled for now (but it is present in the code).

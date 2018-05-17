@@ -3,6 +3,7 @@ import requests
 import time
 import json
 import os
+import platform
 from urllib.request import urlopen
 from hurry.filesize import size, alternative
 from PyQt5 import QtCore, Qt
@@ -22,8 +23,19 @@ class CheckECMWFDownloaderOnline(Qt.QThread):
         url = 'https://api.github.com/repos/olivierpascalhenry/ECMWF-Data-Downloader/releases/latest'
         try:
             json_object = requests.get(url=url).json()
+            format = ''
+            if platform.system() == 'Windows':
+                format = '.msi'
+            elif platform.system() == 'Linux':
+                format = '.tar.gz'
             if LooseVersion(_downloader_version) < LooseVersion(json_object['tag_name']):
-                self.finished.emit(json_object['assets'][0]['browser_download_url'])
+                assets = json_object['assets']
+                download_url = 'no new version'
+                for asset in assets:
+                    link = asset['browser_download_url']
+                    if format in link:
+                        download_url = link
+                self.finished.emit(download_url)
             else:
                 self.finished.emit('no new version')
         except Exception:

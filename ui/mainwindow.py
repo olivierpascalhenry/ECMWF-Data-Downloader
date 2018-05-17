@@ -2,6 +2,8 @@ import logging
 import os
 import tempfile
 import time
+import platform
+import webbrowser
 from PyQt5 import QtCore, QtWidgets, QtGui
 from ui.Ui_mainwindow import Ui_MainWindow
 from ui._version import _downloader_version, _eclipse_version, _py_version, _qt_version
@@ -209,26 +211,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             icon = QtGui.QIcon()
             icon.addPixmap(QtGui.QPixmap("icons/downloader_update_on_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.actionUpdate.setIcon(icon)
-            self.actionUpdate.setToolTip('A new update is available for ECMWF Data Downloader ! Click here to install it automatically.')
+            if platform.system() == 'Windows':
+                self.actionUpdate.setToolTip('A new update is available for ECMWF Data Downloader ! Click here to install it automatically.')
+            elif platform.system() == 'Linux':
+                self.actionUpdate.setToolTip('A new update is available for ECMWF Data Downloader ! Click here to download it.')
             self.link_latest_version = val
     
     def download_and_install_downloader_update(self):
         logging.debug('mainwindow.py - download_and_install_downloader_update - link_latest_version ' + str(self.link_latest_version))
         if self.link_latest_version:
-            temp_folder = tempfile.gettempdir()
-            self.downloadWindow = MyUpdate(self.link_latest_version, temp_folder)
-            x1, y1, w1, h1 = self.geometry().getRect()
-            _, _, w2, h2 = self.downloadWindow.geometry().getRect()
-            x2 = x1 + w1/2 - w2/2
-            y2 = y1 + h1/2 - h2/2
-            self.downloadWindow.setGeometry(x2, y2, w2, h2)
-            self.downloadWindow.setMinimumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
-            self.downloadWindow.setMaximumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
-            self.downloadWindow.exec_()
-            if not self.downloadWindow.cancel:
-                os.startfile(temp_folder + '\\' + self.link_latest_version[self.link_latest_version.rfind('/')+1:])
-                time.sleep(0.1)
-                self.close()
+            if platform.system() == 'Windows':
+                temp_folder = tempfile.gettempdir()
+                self.downloadWindow = MyUpdate(self.link_latest_version, temp_folder)
+                x1, y1, w1, h1 = self.geometry().getRect()
+                _, _, w2, h2 = self.downloadWindow.geometry().getRect()
+                x2 = x1 + w1/2 - w2/2
+                y2 = y1 + h1/2 - h2/2
+                self.downloadWindow.setGeometry(x2, y2, w2, h2)
+                self.downloadWindow.setMinimumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
+                self.downloadWindow.setMaximumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
+                self.downloadWindow.exec_()
+                if not self.downloadWindow.cancel:
+                    os.startfile(temp_folder + '\\' + self.link_latest_version[self.link_latest_version.rfind('/')+1:])
+                    time.sleep(0.1)
+                    self.close()
+            elif platform.system() == 'Linux':
+                webbrowser.open(self.link_latest_version)
     
     def get_file_name(self, action):
         logging.debug('mainwindow.py - get_file_name')
