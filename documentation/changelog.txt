@@ -3,6 +3,24 @@ CHANGELOG
 =========
 
 
+To do list:
+-----------
+  - add a window at startup to give information to the user about the ECMWF API and what he has to do with options.
+  - add a window to ask the user to save its query if the query is modified and unsaved when he wants to leave the software.
+  - add text to all infobuttons.
+  - add the fact that 'step' checkboxes can be disabled based on 'time' checkboxes.
+  - find a new way to prepare the database to store the fact that parameters exist in 'fc' and/or 'an' type.
+  - change logic between tabs to take into account the fact just above.
+
+
+May xx 2018, Release version 0.8.0
+==================================
+Version for testing purposes.
+
+  ADDED:
+    - a function to translate user inputs into a new query for ECMWF API has been introduced. The function is still in beta state and not perfect. If the query is not well prepared, the http response will contain an error displayed in the Download window.
+
+
 May 17 2018, Release version 0.7.1
 ==================================
 Version for testing purposes. A version dedicated to Linux has been built.

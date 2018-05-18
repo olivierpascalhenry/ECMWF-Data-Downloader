@@ -17,6 +17,7 @@ def object_init(self):
     self.period_cb = []
     self.field_rb = []
     self.parameter_cb = []
+    self.checked_parameter = []
 
 
 def info_button_text(self):
@@ -80,5 +81,78 @@ def dataset_data_information(self):
                                                              'Monthly Means of Daily Means':era_interim_daily_means_parameters,
                                                              'Monthly Means of Daily Forecast Accumulations':era_interim_daily_accumulation_parameters}},
                                 'ERA-Interim/LAND':{}}
+    
+    
+    
+    self.classes_dict = {'ERA-Interim':'ei',
+                       'ERA-Interim/LAND':'ei',
+                       'ERA-15':'er',
+                       'ERA-40':'e4',
+                       'ERA5':'ea',
+                       'ERA-20C':'e2',
+                       'ERA-20CM':'em',
+                       'CERA-20C':'ep',
+                       'CERA-SAT':'et'}
+    
+    self.datasets_dict = {'ERA-Interim':'interim',
+                         'ERA-Interim/LAND':'interim_land',
+                         'ERA-15':'era15',
+                         'ERA-40':'era40',
+                         'ERA5':'era5',
+                         'ERA-20C':'era20c',
+                         'ERA-20CM':'era20cm',
+                         'CERA-20C':'cera20c',
+                         'CERA-SAT':'cera_sat'}
+        
+    self.fields_dict = {'Daily':'oper',
+                        'Invariant':'oper',
+                        'Synoptic Monthly Means':'mnth',
+                        'Monthly Means of Daily Means':'moda',
+                        'Monthly Means of Daily Forecast Accumulations':'mdfa'}
+    
+    self.resolution_dic = ['0.125/0.125','0.25/0.25','0.4/0.4','0.5/0.5','0.75/0.75','1/1','1.125/1.125','1.5/1.5','2/2','2.5/2.5','3/3']
+    
+    self.area_dict = {'Default (as archived)':None, #North/West/South/East
+                      'South Asia':'30/60/0/120',
+                      'Europe':'75/-20/10/60',
+                      'Indonesia':'5/100/-10/150',
+                      'Inter-tropical band':'30/0/-30/360',
+                      'North America':'70/-130/30/-60',
+                      'Northern Hemisphere':'87.5/0/30/360',
+                      'Southern Hemisphere':'-30/0/-87.5/360',
+                      'Tropical Pacific':'10/160/-10/260'}
+    
+    self.type_dict = {'0':'an',
+                      '3':'fc',
+                      '6':'fc',
+                      '9':'fc',
+                      '12':'fc'}
+    
+    
+    
+    
+    '''00:00:00 :  0 : an
+            3 : fc
+            6 : fc
+            9 : fc
+            12 : fc
+
+    06:00:00 :  0 : an 
+            3 : /
+            6 : /
+            9 : /
+            12 : /
+
+    12:00:00 :  0 : an
+            3 : fc
+            6 : fc
+            9 : fc
+            12 : fc
+
+    18:00:00 :  0 : an
+            3 : /
+            6 : /
+            9 : /
+            12 : /'''
     
     

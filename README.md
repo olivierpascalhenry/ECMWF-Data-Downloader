@@ -1,9 +1,8 @@
 Version
 -------
-ECMWF Data Downloader 0.7.1
+ECMWF Data Downloader 0.8.0
 
 !!! NOT SUITED FOR PRODUCTION ENVIRONMENT !!! ONLY FOR TESTING PURPOSES !!!
-No API embedded at this time.
 
 
 Project Overview:

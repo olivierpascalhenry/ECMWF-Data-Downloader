@@ -57,6 +57,7 @@ def populate_parameters(self, dataset):
     self.tabWidget.setCurrentIndex(1)
     clear_layout(self.parameter_grid_layout)
     self.parameters_lb_1.setEnabled(True)
+    self.checked_parameter.clear()
     parameters_dict = dataset['parameters'][field]
     parameters = []
     for key, _ in parameters_dict.items():
@@ -83,6 +84,7 @@ def populate_parameters(self, dataset):
         self.parameters_bg_1.addButton(self.parameter_cb[param_num])
         self.parameter_cb[param_num].toggled.connect(lambda: populate_times(self, dataset, field, parameters_dict))
         self.parameter_cb[param_num].toggled.connect(lambda: clean_stylesheet_parameter(self))
+        self.parameter_cb[param_num].clicked.connect(lambda: add_checked_parameter_list(self))
         self.parameter_grid_layout.addWidget(self.parameter_cb[param_num], i, j, 1, 1)
         j += 1
         if j == 2:
@@ -224,7 +226,7 @@ def enable_period_widgets(self):
     logging.debug('gui_functions.py - enable_period_widgets')
     clear_period_widgets(self)
     self.time_rb_1.setEnabled(True)
-    self.time_rb_2.setEnabled(True)
+    #self.time_rb_2.setEnabled(True)
     self.time_de_1.setEnabled(True)
     self.time_de_2.setEnabled(True)
     self.time_lb_3.setEnabled(True)
@@ -747,3 +749,11 @@ def clean_stylesheet_area(self):
         "    color: rgb(120,120,120);\n"
         "}")
         self.tabWidget.tabBar().setTabTextColor(3, QtGui.QColor(0,0,0))
+
+
+def add_checked_parameter_list(self):
+    widget = self.sender()
+    if widget.isChecked():
+        self.checked_parameter.append(widget.text())
+    else:
+        self.checked_parameter.remove(widget.text())

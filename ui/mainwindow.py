@@ -14,6 +14,7 @@ from functions.gui_functions import populate_period_elements, populate_fields, h
 from functions.gui_functions import clean_stylesheet_dataset, clean_stylesheet_time, clean_stylesheet_step, clean_stylesheet_period
 from functions.checking_functions import tabs_checking
 from functions.xml_functions import save_xml_query, open_xml_query
+from functions.query_functions import prepare_query
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -51,7 +52,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.area_ln_5.textChanged.connect(self.set_modified)
         self.time_de_1.dateChanged.connect(self.set_modified)
         self.time_de_2.dateChanged.connect(self.set_modified)
-        #self.download_bt_1.clicked.connect(lambda: self.check_tabs_for_download())
+        self.download_bt_1.clicked.connect(self.check_tabs_for_download)
+        
+        #self.download_bt_1.clicked.connect(self.download_ecmwf_data)
+        
         self.check_downloader_update()
         self.make_window_title()
         logging.info('mainwindow.py - UI initialized ...')
@@ -156,14 +160,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def download_ecmwf_data(self):
         logging.debug('mainwindow.py - download_ecmwf_data')
-        '''self.query =  # add function to translate user inputs into query
+        self.query =  prepare_query(self)
+        logging.debug('mainwindow.py - download_ecmwf_data - query: ' + str(self.query))
         self.queryWindow = MyQuery(self.query, self.config_dict)
         x1, y1, w1, h1 = self.geometry().getRect()
         _, _, w2, h2 = self.queryWindow.geometry().getRect()
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.queryWindow.setGeometry(x2, y2, w2, h2)
-        self.queryWindow.exec_()'''
+        self.queryWindow.exec_()
     
     def closeEvent(self, event):
         logging.debug('mainwindow.py - closeEvent')
