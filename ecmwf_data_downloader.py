@@ -36,6 +36,10 @@ def launch_prosim_updater(path):
         config_dict.set('OPTIONS', 'language', 'english')
         with open(os.path.join(path, 'ecmwf_downloader.ini'), 'w') as configfile:
             config_dict.write(configfile)
+    if not config_dict['CREDENTIALS'].get('folder'):
+        config_dict.set('CREDENTIALS', 'folder', '')
+        with open(os.path.join(path, 'ecmwf_downloader.ini'), 'w') as configfile:
+            config_dict.write(configfile)
     if not config_dict.get('LOG', 'path'):
         log_filename = os.path.join(path, 'ecmwf_downloader_log.out')
     else:

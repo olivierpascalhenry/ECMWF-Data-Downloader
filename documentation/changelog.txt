@@ -11,14 +11,19 @@ To do list:
   - add the fact that 'step' checkboxes can be disabled based on 'time' checkboxes.
   - find a new way to prepare the database to store the fact that parameters exist in 'fc' and/or 'an' type.
   - change logic between tabs to take into account the fact just above.
+  - correct the display of the download speed in the download window if speed is above 1MB.
+  - in the case of the update of the update system, find a way to say to the user that he has to donwload and install the update manually.
 
 
-May xx 2018, Release version 0.8.0
+May 18 2018, Release version 0.8.0
 ==================================
 Version for testing purposes.
 
   ADDED:
     - a function to translate user inputs into a new query for ECMWF API has been introduced. The function is still in beta state and not perfect. If the query is not well prepared, the http response will contain an error displayed in the Download window.
+  
+  FIXED:
+    - if a new option is not present in the 'ecmwf_downloader.ini', it is not created at startup. It has been fixed.
 
 
 May 17 2018, Release version 0.7.1
