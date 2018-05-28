@@ -57,7 +57,7 @@ def save_xml_query(self, out_file_name):
         if button.text() == 'From':
             add_element(doc, "From", period, self.time_de_1.date().toString(QtCore.Qt.ISODate))
             add_element(doc, "To", period, self.time_de_2.date().toString(QtCore.Qt.ISODate))
-        elif button.text() == 'Or':
+        elif button.text() == 'Or select a':
             for widget in self.period_cb:
                 if widget.isChecked():
                     year = widget.objectName()[9:13]
@@ -158,6 +158,7 @@ def open_xml_query(self, file_name):
         index = self.tabWidget.currentIndex()
         self.tabWidget.setCurrentIndex(2)
         self.time_rb_2.setChecked(True)
+        self.period_cb_1.setCurrentIndex(0)
         for widget in self.period_cb:
             if widget.objectName() in year_month_list:
                 widget.setChecked(True)
@@ -170,6 +171,7 @@ def open_xml_query(self, file_name):
         index = self.tabWidget.currentIndex()
         self.tabWidget.setCurrentIndex(2)
         self.time_rb_2.setChecked(True)
+        self.period_cb_1.setCurrentIndex(1)
         for widget in self.period_cb:
             if widget.objectName() in year_list:
                 widget.setChecked(True)
@@ -213,7 +215,7 @@ def open_xml_query(self, file_name):
 
     
 def add_element(doc, element_name, parent, value=None):
-    logging.info('xml_functions.py - add_element')
+    logging.debug('xml_functions.py - add_element')
     new_element = doc.createElementNS(NAMESPACE_URI, 'downloader:' + element_name)
     if value:
         new_text = doc.createTextNode(value)
@@ -223,12 +225,12 @@ def add_element(doc, element_name, parent, value=None):
 
 
 def get_element(parent, element_name):
-    logging.info('xml_functions.py - get_element')
+    logging.debug('xml_functions.py - get_element')
     return parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)[0]
 
 
 def get_element_value(parent, element_name):
-    logging.info('xml_functions.py - get_element_value')
+    logging.debug('xml_functions.py - get_element_value')
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     if elements:
         element = elements[0]
@@ -239,13 +241,13 @@ def get_element_value(parent, element_name):
 
 
 def get_check_value(parent, element_name):
-    logging.info('xml_functions.py - get_check_value')
+    logging.debug('xml_functions.py - get_check_value')
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     return elements[0].childNodes[0].data.strip()
 
 
 def get_element_values(parent, element_name):
-    logging.info('xml_functions.py - get_element_values')
+    logging.debug('xml_functions.py - get_element_values')
     value_list = []
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     for element in elements:

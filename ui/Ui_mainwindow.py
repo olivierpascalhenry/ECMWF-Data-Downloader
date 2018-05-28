@@ -996,7 +996,7 @@ class Ui_MainWindow(object):
         spacerItem26 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_16.addItem(spacerItem26)
         self.verticalLayout_6.addLayout(self.horizontalLayout_16)
-        spacerItem27 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        spacerItem27 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout_6.addItem(spacerItem27)
         self.horizontalLayout_15 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_15.setObjectName("horizontalLayout_15")
@@ -1113,7 +1113,7 @@ class Ui_MainWindow(object):
         spacerItem31 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_17.addItem(spacerItem31)
         self.verticalLayout_6.addLayout(self.horizontalLayout_17)
-        spacerItem32 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        spacerItem32 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout_6.addItem(spacerItem32)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
@@ -1321,6 +1321,69 @@ class Ui_MainWindow(object):
         self.time_rb_2.setObjectName("time_rb_2")
         self.period_bg_1.addButton(self.time_rb_2)
         self.horizontalLayout_5.addWidget(self.time_rb_2)
+        self.period_cb_1 = QtWidgets.QComboBox(self.scrollAreaWidgetContents_3)
+        self.period_cb_1.setEnabled(False)
+        self.period_cb_1.setMinimumSize(QtCore.QSize(150, 27))
+        self.period_cb_1.setMaximumSize(QtCore.QSize(150, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.period_cb_1.setFont(font)
+        self.period_cb_1.setStyleSheet("QComboBox {\n"
+"    border: 1px solid #acacac;\n"
+"    border-radius: 1px;\n"
+"    padding-left: 5px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #f0f0f0, stop: 1 #e5e5e5);\n"
+"}\n"
+"\n"
+"QComboBox:disabled {\n"
+"    background-color:  rgb(200,200,200);\n"
+"}\n"
+"\n"
+"QComboBox:hover {\n"
+"    border: 1px solid #7eb4ea;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #ecf4fc, stop: 1 #dcecfc);\n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 27px;\n"
+"    border-left-width: 1px;\n"
+"    border-left-color: darkgray;\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    selection-background-color: rgb(200,200,200);\n"
+"    selection-color: black;\n"
+"    background: #f0f0f0;\n"
+"    border: 0px solid #f0f0f0;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView::item {\n"
+"    margin: 5px 5px 5px 5px;\n"
+"}")
+        self.period_cb_1.setMaxVisibleItems(12)
+        self.period_cb_1.setObjectName("period_cb_1")
+        self.period_cb_1.addItem("")
+        self.period_cb_1.addItem("")
+        self.horizontalLayout_5.addWidget(self.period_cb_1)
         spacerItem37 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem37)
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
@@ -1329,11 +1392,11 @@ class Ui_MainWindow(object):
         self.time_vertical_layout = QtWidgets.QVBoxLayout()
         self.time_vertical_layout.setObjectName("time_vertical_layout")
         self.verticalLayout_6.addLayout(self.time_vertical_layout)
-        self.gridLayout_4.addLayout(self.verticalLayout_6, 1, 1, 1, 2)
+        self.gridLayout_4.addLayout(self.verticalLayout_6, 1, 1, 1, 1)
         spacerItem38 = QtWidgets.QSpacerItem(57, 20, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_4.addItem(spacerItem38, 1, 3, 1, 1)
+        self.gridLayout_4.addItem(spacerItem38, 1, 2, 1, 1)
         spacerItem39 = QtWidgets.QSpacerItem(20, 363, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_4.addItem(spacerItem39, 2, 2, 1, 1)
+        self.gridLayout_4.addItem(spacerItem39, 2, 1, 1, 1)
         self.time_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
         self.gridLayout_3.addWidget(self.time_scroll_area, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tabWidgetPage3, "")
@@ -2027,6 +2090,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
+        self.period_cb_1.setCurrentIndex(0)
         self.area_cb_1.setCurrentIndex(1)
         self.area_cb_2.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -2064,7 +2128,9 @@ class Ui_MainWindow(object):
         self.time_de_1.setDisplayFormat(_translate("MainWindow", "yyyy-MM-dd"))
         self.time_lb_4.setText(_translate("MainWindow", "to"))
         self.time_de_2.setDisplayFormat(_translate("MainWindow", "yyyy-MM-dd"))
-        self.time_rb_2.setText(_translate("MainWindow", "Or"))
+        self.time_rb_2.setText(_translate("MainWindow", "Or select a"))
+        self.period_cb_1.setItemText(0, _translate("MainWindow", "monthly period"))
+        self.period_cb_1.setItemText(1, _translate("MainWindow", "yearly period"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage3), _translate("MainWindow", "Time period"))
         self.area_lb_1.setText(_translate("MainWindow", "7) Select an area:"))
         self.area_cb_1.setItemText(0, _translate("MainWindow", "Custom"))

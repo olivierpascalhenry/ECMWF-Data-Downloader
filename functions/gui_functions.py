@@ -2,6 +2,21 @@ import logging
 import datetime
 from dateutil.relativedelta import relativedelta
 from PyQt5 import QtWidgets, QtGui, QtCore
+from functions.window_functions import MyInfo
+
+
+def info_button(self):
+    logging.debug('gui_functions.py - info_button - self.sender().objectName() ' + self.sender().objectName())
+    if 'infoButton' in self.sender().objectName():
+        x = QtGui.QCursor.pos().x()
+        y = QtGui.QCursor.pos().y()
+        x = x - 175
+        y = y + 50
+        self.infoWindow = MyInfo(self.info_button_text_dict[self.sender().objectName()])
+        self.infoWindow.setMinimumSize(QtCore.QSize(450, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setMaximumSize(QtCore.QSize(450, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setGeometry(x, y, 450, self.infoWindow.sizeHint().height())
+        self.infoWindow.exec_()
 
 
 def populate_fields(self):
@@ -225,10 +240,14 @@ def enable_steps_widgets(self):
 def enable_period_widgets(self):
     logging.debug('gui_functions.py - enable_period_widgets')
     clear_period_widgets(self)
-    self.time_rb_1.setEnabled(True)
-    #self.time_rb_2.setEnabled(True)
-    self.time_de_1.setEnabled(True)
-    self.time_de_2.setEnabled(True)
+    
+    if self.dataset_information[self.dataset_gb_1.checkedButton().text()]['fields'][self.dataset_gb_2.checkedButton().text()]['step'] == 'daily':
+        self.time_rb_1.setEnabled(True)
+        #self.time_de_1.setEnabled(True)
+        #self.time_de_2.setEnabled(True)
+
+    self.time_rb_2.setEnabled(True)
+    #self.period_cb_1.setEnabled(True)
     self.time_lb_3.setEnabled(True)
     self.time_lb_4.setEnabled(True)
     self.time_lb_3.setStyleSheet("QLabel {\n"
@@ -296,6 +315,7 @@ def disable_period_widgets(self):
     self.time_rb_2.setEnabled(False)
     self.time_de_1.setEnabled(False)
     self.time_de_2.setEnabled(False)
+    self.period_cb_1.setEnabled(False)
     self.time_lb_3.setEnabled(False)
     self.time_lb_4.setEnabled(False)
     self.time_lb_3.setStyleSheet("QLabel {\n"
@@ -323,107 +343,116 @@ def clear_period_widgets(self):
     self.period_bg_1.setExclusive(True)
 
 
-def populate_period_elements(self):
-    logging.info('gui_functions.py - populate_period_elements')
+def activate_period_elements(self):
+    logging.info('gui_functions.py - acxtivate_period_elements')
     if self.time_rb_1.isChecked():
+        self.time_de_1.setEnabled(True)
+        self.time_de_2.setEnabled(True)
+        self.period_cb_1.setEnabled(False)
         if self.time_vertical_layout.count() > 0:
             self.period_cb.clear()
             clear_layout(self.time_vertical_layout)
     elif self.time_rb_2.isChecked():
-        if self.time_vertical_layout.count() == 0:
-            self.period_cb.clear()
-            dataset = self.dataset_gb_1.button(self.dataset_gb_1.checkedId()).text()
-            field = self.dataset_gb_2.button(self.dataset_gb_2.checkedId()).text()
-            start = self.dataset_information[dataset]['fields'][field]['start']
-            step = self.dataset_information[dataset]['fields'][field]['step']
-            end = self.dataset_information[dataset]['fields'][field]['end']
-            start_year = int(start[:4])
-            start_month = int(start[5:])
-            if end == 'now':
-                if step == 'month':
-                    end_year = (datetime.date.today() - relativedelta(months=+3)).year
-                    end_month = (datetime.date.today() - relativedelta(months=+3)).month
-                elif step == 'year':
-                    end_year = datetime.date.today().year
-            time_grid = QtWidgets.QGridLayout()
-            time_grid.setContentsMargins(0, 0, 0, 0)
-            time_grid.setObjectName("time_grid")
-            self.time_vertical_layout.addLayout(time_grid)
-            font = QtGui.QFont()
-            font.setFamily("fonts/SourceSansPro-Regular.ttf")
-            font.setPointSize(9)
-            font.setBold(False)
-            font.setWeight(50)
-            font.setKerning(True)
-            font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-            if step == 'month':
-                n_month = ((datetime.datetime(end_year,end_month,1).year - datetime.datetime(start_year,start_month,1).year) * 12
-                           + datetime.datetime(end_year,end_month,1).month - datetime.datetime(start_year,start_month,1).month)
-                months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
-                       '','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-                for j in range(len(months)):
-                    label = QtWidgets.QLabel()
-                    label.setMinimumSize(QtCore.QSize(0, 27))
-                    label.setMaximumSize(QtCore.QSize(16777215, 27))
-                    label.setFont(font)
-                    label.setText(months[j])
-                    label.setObjectName("label_" + months[j])
-                    time_grid.addWidget(label, 0, j, 1, 1)
-                k = 0
-                start_year -= 1
-                for i in range(int((n_month / 24) + 1)):
-                    tmp = []
-                    l = 1
-                    for j in range(26):
-                        if k <= n_month:
-                            if j == 0 or j == 13:
-                                start_year += 1
-                                label = QtWidgets.QLabel()
-                                label.setMinimumSize(QtCore.QSize(0, 27))
-                                label.setMaximumSize(QtCore.QSize(16777215, 27))
-                                label.setFont(font)
-                                label.setText(str(start_year))
-                                label.setObjectName("label_" + str(start_year))
-                                time_grid.addWidget(label, i + 1, j, 1, 1)
-                            else:
-                                k += 1
-                                checkbox = QtWidgets.QCheckBox()
-                                checkbox.setMinimumSize(QtCore.QSize(0, 27))
-                                checkbox.setMaximumSize(QtCore.QSize(16777215, 27))
-                                checkbox.setFont(font)
-                                checkbox.setObjectName("checkbox_" + str(start_year) + "_" + str(l))
-                                checkbox.toggled.connect(self.set_modified)
-                                self.period_cb.append(checkbox)
-                                time_grid.addWidget(checkbox, i + 1, j, 1, 1)
-                                l += 1
-                                if l == 13:
-                                    l = 1
-                for j in range(len(months)):
-                    label = QtWidgets.QLabel()
-                    label.setMinimumSize(QtCore.QSize(0, 27))
-                    label.setMaximumSize(QtCore.QSize(16777215, 27))
-                    label.setFont(font)
-                    label.setText(months[j])
-                    label.setObjectName("label_" + months[j])
-                    time_grid.addWidget(label, i + 2, j, 1, 1)
-            else:
-                n_year = end_year - start_year
-                i, j = 0, 0
-                for k in range(n_year + 1):
-                    checkbox = QtWidgets.QCheckBox()
-                    checkbox.setMinimumSize(QtCore.QSize(0, 27))
-                    checkbox.setMaximumSize(QtCore.QSize(16777215, 27))
-                    checkbox.setFont(font)
-                    checkbox.setText(str(start_year))
-                    checkbox.setObjectName("checkbox_" + str(start_year))
-                    checkbox.toggled.connect(self.set_modified)
-                    self.period_cb.append(checkbox)
-                    time_grid.addWidget(checkbox, j, i, 1, 1)
-                    i += 1
-                    if i > 12:
-                        i = 0
-                        j += 1
-                    start_year += 1
+        self.time_de_1.setEnabled(False)
+        self.time_de_2.setEnabled(False)
+        self.period_cb_1.setEnabled(True)
+        populate_period_elements(self)
+            
+            
+def populate_period_elements(self):
+    self.period_cb.clear()
+    clear_layout(self.time_vertical_layout)
+    dataset = self.dataset_gb_1.button(self.dataset_gb_1.checkedId()).text()
+    field = self.dataset_gb_2.button(self.dataset_gb_2.checkedId()).text()
+    start = self.dataset_information[dataset]['fields'][field]['start']
+    step = self.dataset_information[dataset]['fields'][field]['step']
+    end = self.dataset_information[dataset]['fields'][field]['end']
+    start_year = int(start[:4])
+    start_month = int(start[5:])
+    if end == 'now':
+        end_year = (datetime.date.today() - relativedelta(months=+3)).year
+        end_month = (datetime.date.today() - relativedelta(months=+3)).month
+    time_grid = QtWidgets.QGridLayout()
+    time_grid.setContentsMargins(0, 0, 0, 0)
+    time_grid.setObjectName("time_grid")
+    self.time_vertical_layout.addLayout(time_grid)
+    font = QtGui.QFont()
+    font.setFamily("fonts/SourceSansPro-Regular.ttf")
+    font.setPointSize(9)
+    font.setBold(False)
+    font.setWeight(50)
+    font.setKerning(True)
+    font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+    if self.period_cb_1.currentText() == 'monthly period':
+        n_month = ((datetime.datetime(end_year,end_month,1).year - datetime.datetime(start_year,start_month,1).year) * 12
+                    + datetime.datetime(end_year,end_month,1).month - datetime.datetime(start_year,start_month,1).month)
+        months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
+                  '','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        for j in range(len(months)):
+            label = QtWidgets.QLabel()
+            label.setMinimumSize(QtCore.QSize(0, 27))
+            label.setMaximumSize(QtCore.QSize(16777215, 27))
+            label.setFont(font)
+            label.setText(months[j])
+            label.setObjectName("label_" + months[j])
+            time_grid.addWidget(label, 0, j, 1, 1)
+        k = 0
+        start_year -= 1
+        for i in range(int((n_month / 24) + 1)):
+            tmp = []
+            l = 1
+            for j in range(26):
+                if k <= n_month:
+                    if j == 0 or j == 13:
+                        start_year += 1
+                        label = QtWidgets.QLabel()
+                        label.setMinimumSize(QtCore.QSize(0, 27))
+                        label.setMaximumSize(QtCore.QSize(16777215, 27))
+                        label.setFont(font)
+                        label.setText(str(start_year))
+                        label.setObjectName("label_" + str(start_year))
+                        time_grid.addWidget(label, i + 1, j, 1, 1)
+                    else:
+                        k += 1
+                        checkbox = QtWidgets.QCheckBox()
+                        checkbox.setMinimumSize(QtCore.QSize(0, 27))
+                        checkbox.setMaximumSize(QtCore.QSize(16777215, 27))
+                        checkbox.setFont(font)
+                        checkbox.setObjectName("checkbox_" + str(start_year) + "_" + str(l))
+                        checkbox.toggled.connect(self.set_modified)
+                        checkbox.toggled.connect(lambda: clean_stylesheet_period(self))
+                        self.period_cb.append(checkbox)
+                        time_grid.addWidget(checkbox, i + 1, j, 1, 1)
+                        l += 1
+                        if l == 13:
+                            l = 1
+        for j in range(len(months)):
+            label = QtWidgets.QLabel()
+            label.setMinimumSize(QtCore.QSize(0, 27))
+            label.setMaximumSize(QtCore.QSize(16777215, 27))
+            label.setFont(font)
+            label.setText(months[j])
+            label.setObjectName("label_" + months[j])
+            time_grid.addWidget(label, i + 2, j, 1, 1)
+    else:
+        n_year = end_year - start_year
+        i, j = 0, 0
+        for k in range(n_year + 1):
+            checkbox = QtWidgets.QCheckBox()
+            checkbox.setMinimumSize(QtCore.QSize(0, 27))
+            checkbox.setMaximumSize(QtCore.QSize(16777215, 27))
+            checkbox.setFont(font)
+            checkbox.setText(str(start_year))
+            checkbox.setObjectName("checkbox_" + str(start_year))
+            checkbox.toggled.connect(self.set_modified)
+            checkbox.toggled.connect(lambda: clean_stylesheet_period(self))
+            self.period_cb.append(checkbox)
+            time_grid.addWidget(checkbox, j, i, 1, 1)
+            i += 1
+            if i > 12:
+                i = 0
+                j += 1
+            start_year += 1
 
 
 def enable_area_widgets(self):

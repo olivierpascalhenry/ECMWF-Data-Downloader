@@ -18,6 +18,9 @@ def object_init(self):
     self.field_rb = []
     self.parameter_cb = []
     self.checked_parameter = []
+    self.info_buttons_list = [self.mw_infoButton_1, self.mw_infoButton_2, self.mw_infoButton_3, self.mw_infoButton_4,
+                              self.mw_infoButton_5, self.mw_infoButton_6, self.mw_infoButton_7, self.mw_infoButton_8, 
+                              self.mw_infoButton_9, self.mw_infoButton_10]
 
 
 def info_button_text(self):
@@ -39,6 +42,31 @@ def info_button_text(self):
                                                      + 'at startup.'),
                                   'ow_infoButton_7':'Activate this option to allow ECMWF Data Downloader to check for an update online.',
                                   'ow_infoButton_8':'A folder where to save the file/data downloaded on ECMWF server.',
+                                  'mw_infoButton_1':('Please select a dataset from the list. Once it is done, the list of fields is going to '
+                                                     + 'be automatically populated. Actually, only ERA Interim, at surface level, is '
+                                                     + 'available.'),
+                                  'mw_infoButton_2':('Please select a field from the list. Once it is done, a list of corresponding parameters'
+                                                     + ' is going to be automatically populated. Not available if no dataset has been s'
+                                                     + 'elected.'),
+                                  'mw_infoButton_3':('Please select one or multiple parameters from the list. Once your choice has been done'
+                                                     + ', all items of the next tab will be activated according to the database. Parameters '
+                                                     + 'are ntot available if no dataset and no field have been selected.'),
+                                  'mw_infoButton_4':('Please specify the time of the data in hours. From the GUI, simple hours are available'
+                                                     + ', but from the API it is possible to specify minutes. Valid values depend on parameters.'
+                                                     + 'Not available if no parameter has been selected.'),
+                                  'mw_infoButton_5':('Please select the forecast time step from forecast base time. Valid steps depend on'
+                                                     + ' parameters and times. Not available if no parameter has been selected.'),
+                                  'mw_infoButton_6':('Please select a period for the data. It is possible to select a period from a date'
+                                                     + ' to another, or by selecting months and years in a list.  Not available if no param'
+                                                     + 'eter has been selected.'),
+                                  'mw_infoButton_7':('Please select an area. By default, the area covers all the earth. Some predefined area'
+                                                     + 's exist, but alternatively, you may specify an area of your own, by selecting <b>'
+                                                     + 'Custom</b> and entering the area limits.'),
+                                  'mw_infoButton_8':('Please specify the output grid. The format is in degrees, where the first number deno'
+                                                     + 'tes the east-west resolution (longitude) and the second denotes the north-south res'
+                                                     + 'olution (latitude).'),
+                                  'mw_infoButton_9':('Please specify here the name of file to download.'),
+                                  'mw_infoButton_10':('By default, Grib is the format of the file. You can specify your own format from here.')
                                   }
 
 
@@ -54,11 +82,11 @@ def dataset_data_information(self):
                                 'ERA-20C':{},
                                 'ERA-20CM':{},
                                 'ERA-40':{},
-                                'ERA-Interim':{'fields':{'Daily':{'start':'1979-01','end':'now','step':'month'},
+                                'ERA-Interim':{'fields':{'Daily':{'start':'1979-01','end':'now','step':'daily'},
                                                          'Invariant':{},
-                                                         'Synoptic Monthly Means':{'start':'1979-01','end':'now','step':'year'},
-                                                         'Monthly Means of Daily Means':{'start':'1979-01','end':'now','step':'year'},
-                                                         'Monthly Means of Daily Forecast Accumulations':{'start':'1979-01','end':'now','step':'year'}},
+                                                         'Synoptic Monthly Means':{'start':'1979-01','end':'now','step':'monthly'},
+                                                         'Monthly Means of Daily Means':{'start':'1979-01','end':'now','step':'monthly'},
+                                                         'Monthly Means of Daily Forecast Accumulations':{'start':'1979-01','end':'now','step':'monthly'}},
                                                'steps':{'Daily':['0','3','6','9','12'],
                                                         'Invariant':[],
                                                         'Synoptic Monthly Means':['0','3','6','9','12'],
@@ -128,31 +156,15 @@ def dataset_data_information(self):
                       '9':'fc',
                       '12':'fc'}
     
-    
-    
-    
-    '''00:00:00 :  0 : an
-            3 : fc
-            6 : fc
-            9 : fc
-            12 : fc
+    self.time_step_link = {'00:00:00':{'0':True,'3':True,'6':True,'9':True,'12':True},
+                           '06:00:00':{'0':True,'3':False,'6':False,'9':False,'12':False},
+                           '12:00:00':{'0':True,'3':True,'6':True,'9':True,'12':True},
+                           '18:00:00':{'0':True,'3':False,'6':False,'9':False,'12':False}}
 
-    06:00:00 :  0 : an 
-            3 : /
-            6 : /
-            9 : /
-            12 : /
-
-    12:00:00 :  0 : an
-            3 : fc
-            6 : fc
-            9 : fc
-            12 : fc
-
-    18:00:00 :  0 : an
-            3 : /
-            6 : /
-            9 : /
-            12 : /'''
+    self.step_time_link = {'0':{'00:00:00':True,'06:00:00':True,'12:00:00':True,'18:00:00':True},
+                           '3':{'00:00:00':True,'06:00:00':False,'12:00:00':True,'18:00:00':False},
+                           '6':{'00:00:00':True,'06:00:00':False,'12:00:00':True,'18:00:00':False},
+                           '9':{'00:00:00':True,'06:00:00':False,'12:00:00':True,'18:00:00':False},
+                           '12':{'00:00:00':True,'06:00:00':False,'12:00:00':True,'18:00:00':False}}
     
     

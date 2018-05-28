@@ -12,7 +12,7 @@ from ui._version import _downloader_version
 def launch_prosim_updater(path):
     app = QApplication(sys.argv)
     splash_pix = QPixmap('icons\downloader_update_off_icon.svg')
-    splash = QSplashScreen(splash_pix, Qt.WindowStaysOnTopHint)
+    splash = QSplashScreen(splash_pix)
     splash.setMask(splash_pix.mask())
     splash.show()
     config_dict = configparser.ConfigParser()
@@ -21,8 +21,8 @@ def launch_prosim_updater(path):
                               'path': ''
                               }
         config_dict['OPTIONS'] = {'language':'english',
-                                  'check_update':'False',
-                                  'display_api_info':'False'
+                                  'check_update':'True',
+                                  'display_api_info':'True'
                                   }
         config_dict['CREDENTIALS'] = {'url':'https://api.ecmwf.int/v1',
                                       'key':'',

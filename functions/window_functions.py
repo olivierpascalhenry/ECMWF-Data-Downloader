@@ -1,6 +1,7 @@
 import logging
 import os
 import time
+import platform
 from ui.Ui_infowindow import Ui_infoWindow
 from ui.Ui_aboutwindow import Ui_aboutWindow
 from ui.Ui_logwindow import Ui_Changelog
@@ -9,6 +10,9 @@ from ui.Ui_storewindow import Ui_storeWindow
 from ui.Ui_selectionwindow import Ui_selectionWindow
 from ui.Ui_downloadwindow import Ui_downloadWindow
 from ui.Ui_cancelwindow import Ui_cancelWindow
+from ui.Ui_apiwindow import Ui_apiWindow
+from ui.Ui_presavewindow import Ui_presaveWindow
+from ui.Ui_updatewindow import Ui_updateWindow
 from functions.thread_functions import DownloadFile, ECMWFDataDownloadThread
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -50,7 +54,19 @@ class MyLog(QtWidgets.QDialog, Ui_Changelog):
     def closeWindow(self):
         logging.debug('window_functions.py - MyLog - closeWindow')
         self.close()
+
+
+class MyApi(QtWidgets.QDialog, Ui_apiWindow):
+    def __init__(self):
+        logging.debug('window_functions.py - MyApi - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.button.clicked.connect(self.closeWindow)
         
+    def closeWindow(self):
+        logging.debug('window_functions.py - MyApi - closeWindow')
+        self.close()
+
 
 class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
     def __init__(self, config_dict, info_text):
@@ -135,7 +151,10 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
         self.setupUi(self)
         self.temp_folder = folder
         self.url = url
-        self.update_file = self.temp_folder + '\\' + self.url[self.url.rfind('/')+1:]
+        if platform.system() == 'Windows':
+            self.update_file = self.temp_folder + '\\' + self.url[self.url.rfind('/')+1:]
+        elif platform.system() == 'Linux':
+            self.update_file = self.temp_folder + '/' + self.url[self.url.rfind('/')+1:]
         self.sw_button.clicked.connect(self.cancel_download)
         self.cancel = False
         self.download_update()
@@ -160,6 +179,7 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
         self.thread.cancel_download()
         self.cancel = True
         time.sleep(0.25)
+        #self.thread.stop()
         self.close()
         
     def download_failed(self):
@@ -171,7 +191,7 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
     def closeEvent(self, event):
         logging.debug('window_functions.py - MyUpdate - closeEvent')
         self.thread.download_update.disconnect(self.update_progress_bar)
-        self.thread.stop()
+        #self.thread.stop()
         if self.cancel:
             os.remove(self.update_file)
 
@@ -285,4 +305,42 @@ class MyCancel(QtWidgets.QDialog, Ui_cancelWindow):
     
     def closeWindow(self):
         logging.debug('window_functions.py - MyCancel - closeWindow')
+        self.close()
+
+
+class MyWarning(QtWidgets.QDialog, Ui_presaveWindow):
+    def __init__(self, string):
+        QtWidgets.QWidget.__init__(self)
+        logging.debug('mainwindow.py - MyWarning - string ' + string)
+        self.setupUi(self)
+        self.cancel_button.setFocus(True)
+        all_buttons = self.findChildren(QtWidgets.QToolButton)
+        for widget in all_buttons:
+            widget.clicked.connect(self.closeWindow)
+        self.nosave_button.setText(string + " without saving")
+
+    def closeWindow(self):
+        logging.debug('window_functions.py - MyWarning - closeWindow')
+        self.buttonName = self.sender().objectName()
+        self.close()
+        
+        
+class MyWarningUpdate(QtWidgets.QDialog, Ui_updateWindow):
+    def __init__(self, frozen):
+        logging.debug('window_functions.py - MyWarningUpdate - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        if not frozen:
+            self.label_1.setText('<p>Click on <b>Download</b> to download the latest update from GitHub repository.</p>'
+                                 + '<p>Once the download is over, the software will close automatically. The package is'
+                                 + ' downloaded in the <b>Download</b> folder of your operating system. You will have t'
+                                 + 'o uncompress it and move all files in the directory of <b>ECMWF Data Downloader</b>'
+                                 + '. Do not delete <i>ecmwf_downloader.ini</i> if you want to keep all your options.</p>')
+            self.update_button.setText('Download')
+        self.update_button.clicked.connect(self.closeWindow)
+        self.cancel_button.clicked.connect(self.closeWindow)
+        
+    def closeWindow(self):
+        logging.debug('window_functions.py - MyWarningUpdate - closeWindow')
+        self.buttonName = self.sender().objectName()
         self.close()

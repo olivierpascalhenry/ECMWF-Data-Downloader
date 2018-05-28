@@ -85,6 +85,6 @@ string = ('def init_parameter_database():\n    era_interim_daily_parameters = ' 
           + 'era_interim_daily_accumulation_parameters = ' + str(dictionaries[4]) + '\n    '
           + 'return era_interim_daily_parameters, era_interim_invariant_parameters, era_interim_synoptic_parameters, '
           + 'era_interim_daily_means_parameters, era_interim_daily_accumulation_parameters')
-with open('parameters_dictionary_creation.py', 'w') as file:
+with open('parameters_dictionary_creation_v2.py', 'w') as file:
      file.write(string)
 

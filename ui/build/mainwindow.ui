@@ -1152,8 +1152,8 @@ QScrollBar::right-arrow:horizontal:pressed {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>951</width>
-             <height>482</height>
+             <width>396</width>
+             <height>116</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
@@ -1566,7 +1566,7 @@ QScrollBar::right-arrow:horizontal:pressed {
               </property>
              </spacer>
             </item>
-            <item row="1" column="1" colspan="2">
+            <item row="1" column="1">
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -1850,7 +1850,7 @@ QToolButton:flat {
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>10</height>
+                  <height>13</height>
                  </size>
                 </property>
                </spacer>
@@ -2170,7 +2170,7 @@ QToolButton:flat {
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>10</height>
+                  <height>13</height>
                  </size>
                 </property>
                </spacer>
@@ -2614,11 +2614,104 @@ QDateEdit::down-arrow {
                        </font>
                       </property>
                       <property name="text">
-                       <string>Or</string>
+                       <string>Or select a</string>
                       </property>
                       <attribute name="buttonGroup">
                        <string notr="true">period_bg_1</string>
                       </attribute>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="period_cb_1">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>150</width>
+                        <height>27</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>150</width>
+                        <height>27</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>FreeSans</family>
+                        <pointsize>9</pointsize>
+                        <weight>50</weight>
+                        <bold>false</bold>
+                        <stylestrategy>PreferAntialias</stylestrategy>
+                        <kerning>true</kerning>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QComboBox {
+	border: 1px solid #acacac;
+    border-radius: 1px;
+	padding-left: 5px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
+								stop: 0 #f0f0f0, stop: 1 #e5e5e5);
+}
+
+QComboBox:disabled {
+	background-color:  rgb(200,200,200);
+}
+
+QComboBox:hover {
+	border: 1px solid #7eb4ea;
+    border-radius: 1px;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
+								stop: 0 #ecf4fc, stop: 1 #dcecfc);
+}
+
+QComboBox::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 27px;
+    border-left-width: 1px;
+	border-left-color: darkgray;
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+QComboBox::down-arrow {
+	image: url(icons/down_arrow_icon.svg); 
+	width: 16px;
+	height: 16px
+}
+
+QComboBox QAbstractItemView {
+	selection-background-color: rgb(200,200,200);
+	selection-color: black;
+	background: #f0f0f0;
+	border: 0px solid #f0f0f0;
+}
+
+QComboBox QAbstractItemView::item {
+	margin: 5px 5px 5px 5px;
+}</string>
+                      </property>
+                      <property name="currentIndex">
+                       <number>0</number>
+                      </property>
+                      <property name="maxVisibleItems">
+                       <number>12</number>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>monthly period</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>yearly period</string>
+                       </property>
+                      </item>
                      </widget>
                     </item>
                     <item>
@@ -2645,7 +2738,7 @@ QDateEdit::down-arrow {
               </item>
              </layout>
             </item>
-            <item row="1" column="3">
+            <item row="1" column="2">
              <spacer name="horizontalSpacer_21">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -2661,7 +2754,7 @@ QDateEdit::down-arrow {
               </property>
              </spacer>
             </item>
-            <item row="2" column="2">
+            <item row="2" column="1">
              <spacer name="verticalSpacer_13">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -2842,8 +2935,8 @@ QScrollBar::right-arrow:horizontal:pressed {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>951</width>
-             <height>482</height>
+             <width>668</width>
+             <height>322</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -4145,18 +4238,18 @@ QToolButton:pressed {
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="dataset_gb_1"/>
+  <buttongroup name="step_bg_1">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="period_bg_1"/>
   <buttongroup name="time_bg_1">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="step_bg_1">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
+  <buttongroup name="dataset_gb_1"/>
   <buttongroup name="file_bg_1"/>
  </buttongroups>
 </ui>

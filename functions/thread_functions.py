@@ -4,11 +4,13 @@ import time
 import json
 import os
 import platform
+import sys
 from urllib.request import urlopen
 from hurry.filesize import size, alternative
 from PyQt5 import QtCore, Qt
 from distutils.version import LooseVersion
 from ui._version import _downloader_version
+from PyQt5 import QtWidgets
 
         
 class CheckECMWFDownloaderOnline(Qt.QThread):
@@ -24,17 +26,21 @@ class CheckECMWFDownloaderOnline(Qt.QThread):
         try:
             json_object = requests.get(url=url).json()
             format = ''
-            if platform.system() == 'Windows':
-                format = '.msi'
-            elif platform.system() == 'Linux':
-                format = '.tar.gz'
+            if getattr(sys, 'frozen', False) :
+                if platform.system() == 'Windows':
+                    format = '.msi'
+                elif platform.system() == 'Linux':
+                    format = '.tar.gz'
+            else:
+                format = 'sources.zip'
+                
             if LooseVersion(_downloader_version) < LooseVersion(json_object['tag_name']):
                 assets = json_object['assets']
                 download_url = 'no new version'
                 for asset in assets:
                     link = asset['browser_download_url']
                     if format in link:
-                        download_url = link
+                        download_url = link  
                 self.finished.emit(download_url)
             else:
                 self.finished.emit('no new version')
@@ -56,18 +62,25 @@ class DownloadFile(Qt.QThread):
                       + ' ; update_file ' + str(update_file))
         self.url_name = url_name
         self.update_file = update_file
+        self.filename = self.url_name[self.url_name.rfind("/")+1:]
         self.cancel = False
         
     def run(self):
         logging.debug('thread_functions.py - DownloadFile - run - download started')
-        self.download_update.emit([0, 'Downloading %s...' % self.url_name[self.url_name.rfind("/")+1:]])
+        if len(self.filename) > 35:
+            if platform.system() == 'Windows':
+                self.filename = self.filename[:21] + '[...]' + self.filename[-4:]
+            elif platform.system() == 'Linux':
+                self.filename = self.filename[:21] + '[...]' + self.filename[-7:]
+            
+        self.download_update.emit([0, 'Downloading %s...' % self.filename])
         opened_file = open(self.update_file, 'wb')
         try:
             opened_url = urlopen(self.url_name, timeout=10)
             totalFileSize = int(opened_url.info()['Content-Length'])
             bufferSize = 9192
             fileSize = 0
-            start = time.clock()
+            start = time.time()
             while True:
                 if self.cancel:
                     opened_file.close()
@@ -77,8 +90,8 @@ class DownloadFile(Qt.QThread):
                     break
                 fileSize += len(buffer)
                 opened_file.write(buffer)
-                download_speed = size(fileSize/(time.clock() - start), system=alternative) + '/s'
-                self.download_update.emit([round(fileSize * 100 / totalFileSize), 'Downloading %s at %s' % (self.url_name[self.url_name.rfind("/")+1:], download_speed)])
+                download_speed = self.set_size(fileSize/(time.time() - start)) + '/s'
+                self.download_update.emit([round(fileSize * 100 / totalFileSize), 'Downloading %s at %s' % (self.filename, download_speed)])
             opened_file.close()
             if not self.cancel:
                 logging.debug('thread_functions.py - DownloadFile - run - download finished')
@@ -89,7 +102,16 @@ class DownloadFile(Qt.QThread):
             logging.exception('thread_functions.py - DownloadFile - run - connexion issue ; self.url_name ' + self.url_name)
             opened_file.close()
             self.download_failed.emit()
-            
+    
+    def set_size(self, bytes):
+        suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+        i = 0
+        while bytes >= 1024 and i < len(suffixes)-1:
+            bytes /= 1024.
+            i += 1
+        f = ('%.2f' % bytes).rstrip('0').rstrip('.')
+        return '%s %s' % (f, suffixes[i])
+    
     def cancel_download(self):
         logging.debug('thread_functions.py - DownloadFile - cancel_download')
         self.cancel = True
@@ -210,7 +232,7 @@ class ECMWFDataDownloadThread(Qt.QThread):
                             self.download_update.emit({'browser_text':text,
                                                        'bar_text':'Ready to download...',
                                                        'progress':0})
-                            start = time.clock()
+                            start = time.time()
                             total_length = int(final_res.headers.get('content-length'))
                             downloaded = 0
                             self.download_update.emit({'browser_text':'Downloading...',
@@ -222,7 +244,16 @@ class ECMWFDataDownloadThread(Qt.QThread):
                                     break
                                 downloaded += len(chunk)
                                 f.write(chunk)
-                                download_speed = size(downloaded/(time.clock() - start), system=alternative) + '/s'
+                                
+                                
+                                
+                                try:
+                                    download_speed = self.set_size(downloaded/(time.time() - start)) + '/s'
+                                except ZeroDivisionError:
+                                    download_speed= '0 KB/s'
+                                    
+                                print(download_speed)
+                                    
                                 progress = round(downloaded * 100 / total_length)
                                 bar_text = 'Downloading at ' + download_speed
                                 self.download_update.emit({'browser_text':'',
@@ -266,6 +297,15 @@ class ECMWFDataDownloadThread(Qt.QThread):
             logging.exception('thread_functions.py - ECMWFDataDownloadThread - run - Exception')
             self.download_failed.emit(self.error)
     
+    def set_size(self, bytes):
+        suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+        i = 0
+        while bytes >= 1024 and i < len(suffixes)-1:
+            bytes /= 1024.
+            i += 1
+        f = ('%.2f' % bytes).rstrip('0').rstrip('.')
+        return '%s %s' % (f, suffixes[i])
+    
     def cancel_download(self):
         logging.debug('thread_functions.py - ECMWFDataDownloadThread - cancel_download')
         self.cancel = True
@@ -273,3 +313,4 @@ class ECMWFDataDownloadThread(Qt.QThread):
     def stop(self):
         logging.debug('thread_functions.py - ECMWFDataDownloadThread - stop')
         self.terminate()
+

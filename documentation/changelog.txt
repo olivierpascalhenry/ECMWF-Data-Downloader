@@ -5,16 +5,37 @@ CHANGELOG
 
 To do list:
 -----------
-  - add a window at startup to give information to the user about the ECMWF API and what he has to do with options.
-  - add a window to ask the user to save its query if the query is modified and unsaved when he wants to leave the software.
-  - add text to all infobuttons.
   - add the fact that 'step' checkboxes can be disabled based on 'time' checkboxes.
-  - find a new way to prepare the database to store the fact that parameters exist in 'fc' and/or 'an' type.
-  - change logic between tabs to take into account the fact just above.
-  - correct the display of the download speed in the download window if speed is above 1MB.
-  - in the case of the update of the update system, find a way to say to the user that he has to donwload and install the update manually.
+  - find a new way to prepare the database to store the fact that parameters exist as 'fc' and/or 'an' type.
+  - recode logic between tabs.
+  - add a window to propose to expert user to write their own query based on keywords designed by ECMWF.
+  - add links to all text referring to ecmwf online help for the different sections.
 
+  
+May 28 2018, Release version 0.8.1
+==================================
+Version for testing purposes.
 
+  ADDED:
+    - a window has been introduced at startup to give information to the user about the ECMWF API and what he has to do with options.
+    - a window has been introduced to ask the user to save its query if the query is modified and unsaved when he wants to leave the software or to open another saved query.
+    - a window has been introduced before downloading an update to inform the user.
+    - a way to automatically update ECMWF Data Downloader on Linux system has been introduced.
+    - the update function will react according to the fact that the program has been bundled by PyInstaller or not.
+    - text to help user has been added to all info buttons.
+  
+  FIXED:
+    - fixed all logging messages in the xml functions.
+    - the display of the download speed has been corrected in the download window.
+    - replaced time.clock() by time.time() to compute download speed.
+    - the name of the downloaded file displayed in the download window is not well truncated if it is too long and on linux system.
+    - check boxes in the time period selection didn't triggered the stylesheet cleaning function.
+
+  MODIFIED:
+    - the selection of time period has been changed for consistency. Now the user can select a time period, or years, or months.
+    - the query function has been modified to comply with the new period selection.
+
+    
 May 18 2018, Release version 0.8.0
 ==================================
 Version for testing purposes.

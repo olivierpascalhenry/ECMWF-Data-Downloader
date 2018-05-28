@@ -4,14 +4,18 @@ import tempfile
 import time
 import platform
 import webbrowser
+import shutil
+import subprocess
+import sys
 from PyQt5 import QtCore, QtWidgets, QtGui
 from ui.Ui_mainwindow import Ui_MainWindow
 from ui._version import _downloader_version, _eclipse_version, _py_version, _qt_version
-from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate, MySelect, MyQuery
+from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate, MySelect, MyQuery, MyApi, MyWarning, MyWarningUpdate
 from functions.material_functions import info_button_text, object_init, dataset_data_information
 from functions.thread_functions import CheckECMWFDownloaderOnline
-from functions.gui_functions import populate_period_elements, populate_fields, hide_area_map, set_visibility_area_map, clean_stylesheet_labels
+from functions.gui_functions import activate_period_elements, populate_fields, hide_area_map, set_visibility_area_map, clean_stylesheet_labels
 from functions.gui_functions import clean_stylesheet_dataset, clean_stylesheet_time, clean_stylesheet_step, clean_stylesheet_period
+from functions.gui_functions import info_button, populate_period_elements
 from functions.checking_functions import tabs_checking
 from functions.xml_functions import save_xml_query, open_xml_query
 from functions.query_functions import prepare_query
@@ -31,6 +35,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         itemDelegate = QtWidgets.QStyledItemDelegate()
         self.area_cb_1.setItemDelegate(itemDelegate)
         self.area_cb_2.setItemDelegate(itemDelegate)
+        self.period_cb_1.setItemDelegate(itemDelegate)
         for widget in self.dataset_gb_1.buttons():
             widget.toggled.connect(lambda: populate_fields(self))
             widget.toggled.connect(lambda: clean_stylesheet_dataset(self))
@@ -41,26 +46,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             widget.toggled.connect(lambda: clean_stylesheet_step(self))
             widget.toggled.connect(self.set_modified)
         for widget in self.period_bg_1.buttons():
-            widget.toggled.connect(lambda: populate_period_elements(self))
+            widget.toggled.connect(lambda: activate_period_elements(self))
             widget.toggled.connect(lambda: clean_stylesheet_period(self))
             widget.toggled.connect(self.set_modified)
         for widget in self.file_bg_1.buttons():
             widget.toggled.connect(self.set_modified)
+        for widget in self.info_buttons_list:
+            widget.clicked.connect(lambda: info_button(self))
         self.area_cb_1.currentIndexChanged.connect(lambda: set_visibility_area_map(self))
         self.area_cb_1.currentIndexChanged.connect(self.set_modified)
         self.area_cb_2.currentIndexChanged.connect(self.set_modified)
         self.area_ln_5.textChanged.connect(self.set_modified)
         self.time_de_1.dateChanged.connect(self.set_modified)
         self.time_de_2.dateChanged.connect(self.set_modified)
+        self.period_cb_1.currentIndexChanged.connect(lambda: populate_period_elements(self))
+        self.period_cb_1.currentIndexChanged.connect(self.set_modified)
         self.download_bt_1.clicked.connect(self.check_tabs_for_download)
-        
-        #self.download_bt_1.clicked.connect(self.download_ecmwf_data)
-        
         self.check_downloader_update()
         self.make_window_title()
         logging.info('mainwindow.py - UI initialized ...')
         logging.info('*****************************************')
-        
+        self.api_information()
     
     @QtCore.pyqtSlot()
     def on_actionExit_triggered(self):
@@ -90,6 +96,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_actionUpdate_triggered(self):
         self.download_and_install_downloader_update()
     
+    def api_information(self):
+        logging.debug('mainwindow.py - api_information')
+        if self.config_dict['OPTIONS'].getboolean('display_api_info'):
+            self.apiWindow = MyApi()
+            _, _, w, h = QtWidgets.QDesktopWidget().screenGeometry(-1).getRect()
+            _, _, w2, h2 = self.apiWindow.geometry().getRect()
+            self.apiWindow.setGeometry(w/2 - w2/2, h/2 - h2/2, w2, h2)
+            self.apiWindow.setMinimumSize(QtCore.QSize(700, 400))
+            self.apiWindow.setMaximumSize(QtCore.QSize(700, 400))
+            self.apiWindow.exec_()
+            if self.apiWindow.checkbox.isChecked():
+                if not self.config_dict['OPTIONS'].getboolean('display_api_info'):
+                    self.config_dict.set('OPTIONS', 'display_api_info', 'True')
+                    with open(os.path.join(self.config_path, 'ecmwf_downloader.ini'), 'w') as config_file:
+                        self.config_dict.write(config_file)
+            else:
+                if self.config_dict['OPTIONS'].getboolean('display_api_info'):
+                    self.config_dict.set('OPTIONS', 'display_api_info', 'False')
+                    with open(os.path.join(self.config_path, 'ecmwf_downloader.ini'), 'w') as config_file:
+                        self.config_dict.write(config_file)
+
     def open_about(self):
         logging.debug('mainwindow.py - open_about')
         text = ("The ECMWF Data Downloader v" + _downloader_version + " was developed by Olivier Henry"
@@ -140,9 +167,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def open_document(self):
         logging.debug('mainwindow.py - open_document')
-        filename = self.get_file_name('open')
-        if filename:
-            open_xml_query(self, filename)
+        if self.modified:
+            result = self.save_warning_window("Open")
+            if result == "save_button":
+                self.save_document()
+                filename = self.get_file_name('open')
+                if filename:
+                    open_xml_query(self, filename)
+            elif result == "nosave_button":
+                filename = self.get_file_name('open')
+                if filename:
+                    open_xml_query(self, filename)
+        else:
+            filename = self.get_file_name('open')
+            if filename:
+                open_xml_query(self, filename)
     
     def check_tabs_for_download(self):
         logging.debug('mainwindow.py - check_tabs_for_download')
@@ -161,7 +200,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def download_ecmwf_data(self):
         logging.debug('mainwindow.py - download_ecmwf_data')
         self.query =  prepare_query(self)
-        logging.debug('mainwindow.py - download_ecmwf_data - query: ' + str(self.query))
         self.queryWindow = MyQuery(self.query, self.config_dict)
         x1, y1, w1, h1 = self.geometry().getRect()
         _, _, w2, h2 = self.queryWindow.geometry().getRect()
@@ -171,8 +209,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.queryWindow.exec_()
     
     def closeEvent(self, event):
-        logging.debug('mainwindow.py - closeEvent')
-        self.close()
+        logging.debug('mainwindow.py - closeEvent - self.modified ' + str(self.modified))
+        if self.modified:
+            result = self.save_warning_window("Close")
+            if result == "save_button":
+                self.save_document()
+                logging.info('ECMWF Data Downloader ' + _downloader_version + ' is closing ...')
+                self.close()
+            elif result == "nosave_button":
+                logging.info('ECMWF Data Downloader ' + _downloader_version + ' is closing ...')
+                self.close()
+            else:
+                event.ignore()
+        else:
+            logging.info('ECMWF Data Downloader ' + _downloader_version + ' is closing ...')
+            self.close()
 
     def make_window_title(self):
         logging.debug('mainwindow.py - make_window_title - self.modified ' + str(self.modified))
@@ -216,32 +267,64 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             icon = QtGui.QIcon()
             icon.addPixmap(QtGui.QPixmap("icons/downloader_update_on_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.actionUpdate.setIcon(icon)
-            if platform.system() == 'Windows':
+            if getattr(sys, 'frozen', False ) :
                 self.actionUpdate.setToolTip('A new update is available for ECMWF Data Downloader ! Click here to install it automatically.')
-            elif platform.system() == 'Linux':
+            else:
                 self.actionUpdate.setToolTip('A new update is available for ECMWF Data Downloader ! Click here to download it.')
             self.link_latest_version = val
     
     def download_and_install_downloader_update(self):
         logging.debug('mainwindow.py - download_and_install_downloader_update - link_latest_version ' + str(self.link_latest_version))
         if self.link_latest_version:
-            if platform.system() == 'Windows':
-                temp_folder = tempfile.gettempdir()
-                self.downloadWindow = MyUpdate(self.link_latest_version, temp_folder)
-                x1, y1, w1, h1 = self.geometry().getRect()
-                _, _, w2, h2 = self.downloadWindow.geometry().getRect()
-                x2 = x1 + w1/2 - w2/2
-                y2 = y1 + h1/2 - h2/2
-                self.downloadWindow.setGeometry(x2, y2, w2, h2)
-                self.downloadWindow.setMinimumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
-                self.downloadWindow.setMaximumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
-                self.downloadWindow.exec_()
-                if not self.downloadWindow.cancel:
-                    os.startfile(temp_folder + '\\' + self.link_latest_version[self.link_latest_version.rfind('/')+1:])
-                    time.sleep(0.1)
-                    self.close()
-            elif platform.system() == 'Linux':
-                webbrowser.open(self.link_latest_version)
+            frozen = False
+            height = 250
+            if getattr(sys, 'frozen', False) :
+                frozen = True
+                height = 200
+            self.updateWindow = MyWarningUpdate(frozen)
+            x1, y1, w1, h1 = self.geometry().getRect()
+            _, _, w2, h2 = self.updateWindow.geometry().getRect()
+            x2 = x1 + w1/2 - w2/2
+            y2 = y1 + h1/2 - h2/2
+            self.updateWindow.setGeometry(x2, y2, w2, h2)
+            self.updateWindow.setMinimumSize(QtCore.QSize(600, height))
+            self.updateWindow.setMaximumSize(QtCore.QSize(600, height))
+            self.updateWindow.exec_()
+            try:
+                if self.updateWindow.buttonName == 'update_button':
+                    if getattr(sys, 'frozen', False) :
+                        temp_folder = tempfile.gettempdir()
+                    else:
+                        temp_folder = os.path.expanduser("~")+"/Downloads/"
+                    self.downloadWindow = MyUpdate(self.link_latest_version, temp_folder)
+                    x1, y1, w1, h1 = self.geometry().getRect()
+                    _, _, w2, h2 = self.downloadWindow.geometry().getRect()
+                    x2 = x1 + w1/2 - w2/2
+                    y2 = y1 + h1/2 - h2/2
+                    self.downloadWindow.setGeometry(x2, y2, w2, h2)
+                    self.downloadWindow.setMinimumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
+                    self.downloadWindow.setMaximumSize(QtCore.QSize(500, self.downloadWindow.sizeHint().height()))
+                    self.downloadWindow.exec_()
+                    logging.debug('mainwindow.py - download_and_install_downloader_update - download finished')
+                    if not self.downloadWindow.cancel:
+                        if getattr(sys, 'frozen', False) :
+                            filename = self.link_latest_version[self.link_latest_version.rfind('/')+1:]
+                            if platform.system() == 'Windows':
+                                os.startfile(temp_folder + '\\' + filename)
+                                time.sleep(0.1)
+                                self.close()
+                            elif platform.system() == 'Linux':
+                                shutil.copy('functions/unzip_update.py', temp_folder)
+                                install_folder = self.config_path + '/test/'
+                                command = 'python3 ' + temp_folder + '/unzip_update.py ' + temp_folder + '/' + filename + ' ' + install_folder
+                                os.system('x-terminal-emulator -e ' + command)
+                                time.sleep(0.1)
+                                self.close()
+                        else:
+                            time.sleep(0.1)
+                            self.close()
+            except AttributeError:
+                pass     
     
     def get_file_name(self, action):
         logging.debug('mainwindow.py - get_file_name')
@@ -254,3 +337,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         logging.debug('mainwindow.py - get_file_name - file_name ' + file_name)
         return file_name
     
+    def save_warning_window(self, string):
+        logging.debug('mainwindow.py - save_warning_window')
+        self.presaveWindow = MyWarning(string)
+        x1, y1, w1, h1 = self.geometry().getRect()
+        _, _, w2, h2 = self.presaveWindow.geometry().getRect()
+        x2 = x1 + w1/2 - w2/2
+        y2 = y1 + h1/2 - h2/2
+        self.presaveWindow.setGeometry(x2, y2, w2, h2)
+        self.presaveWindow.setMinimumSize(QtCore.QSize(500, self.presaveWindow.sizeHint().height()))
+        self.presaveWindow.setMaximumSize(QtCore.QSize(500, self.presaveWindow.sizeHint().height()))
+        self.presaveWindow.exec_()
+        return self.presaveWindow.buttonName

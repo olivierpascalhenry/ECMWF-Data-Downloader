@@ -1,8 +1,10 @@
 import logging
+import calendar
 from PyQt5 import QtCore
 
 
 def prepare_query(self):
+    logging.debug('query_functions.py - prepare_query')
     query = {}
     
     dataset_class, dataset, expver, stream, type, date, grid = None, None, '1', 'oper', None, None, None
@@ -61,9 +63,50 @@ def prepare_query(self):
         date_from = self.time_de_1.date().toString(QtCore.Qt.ISODate)
         date_to = self.time_de_2.date().toString(QtCore.Qt.ISODate)
         date = date_from + '/to/' + date_to
-    elif self.period_bg_1.checkedButton().text() == 'Or':
-        pass
-    
+    elif self.period_bg_1.checkedButton().text() == 'Or select a':
+        if self.period_cb_1.currentText() == 'yearly period':
+            date = ''
+            for widget in self.period_cb:
+                if widget.isChecked():
+                    year = widget.objectName()[9:]
+                    if self.dataset_information[dataset_gui]['fields'][field_gui]['step'] == 'daily':
+                        if calendar.isleap(int(year)):
+                            days = 366
+                        else:
+                            days = 365
+                        for i in range(days):
+                            if i < 9:
+                                i = '00' + str(i + 1)
+                            elif i < 99:
+                                i = '0' + str(i + 1)
+                            else:
+                                i = str(i + 1)
+                            date += year + '-' + i + '/'
+                    else:
+                        for i in range(12):
+                            if i < 9:
+                                i = '0' + str(i + 1)
+                            else:
+                                i = str(i + 1)
+                            date += year + i + '01/'
+            date = date[:-1]     
+        else:
+            date = ''
+            for widget in self.period_cb:
+                if widget.isChecked():
+                    year = widget.objectName()[9:13]
+                    month = widget.objectName()[14:]
+                    if int(month) < 10:
+                        month = '0' + month
+                    _, days_number = calendar.monthrange(int(year), int(month))
+                    for i in range(days_number):
+                        if i < 9:
+                            i = '0' + str(i + 1)
+                        else:
+                            i = str(i + 1)
+                        date += year + month + i + '/'
+            date = date[:-1]     
+
     ### parameters
     if self.checked_parameter:
         param =''
@@ -100,7 +143,8 @@ def prepare_query(self):
     for index, parameter in enumerate(parameter_list):
         if parameter != None:
             query[name_list[index]] = parameter
-        
+    
+    logging.debug('query_functions.py - prepare_query - query ' + str(query))
     return query
     
     
