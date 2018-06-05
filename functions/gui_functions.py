@@ -10,7 +10,7 @@ def info_button(self):
     if 'infoButton' in self.sender().objectName():
         x = QtGui.QCursor.pos().x()
         y = QtGui.QCursor.pos().y()
-        x = x - 175
+        x = x - 225
         y = y + 50
         self.infoWindow = MyInfo(self.info_button_text_dict[self.sender().objectName()])
         self.infoWindow.setMinimumSize(QtCore.QSize(450, self.infoWindow.sizeHint().height()))

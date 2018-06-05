@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from ui.Ui_mainwindow import Ui_MainWindow
 from ui._version import _downloader_version, _eclipse_version, _py_version, _qt_version
 from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate, MySelect, MyQuery, MyApi, MyWarning, MyWarningUpdate
+from functions.window_functions import MyExpert
 from functions.material_functions import info_button_text, object_init, dataset_data_information
 from functions.thread_functions import CheckECMWFDownloaderOnline
 from functions.gui_functions import activate_period_elements, populate_fields, hide_area_map, set_visibility_area_map, clean_stylesheet_labels
@@ -79,6 +80,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_actionOpen_triggered(self):
         self.open_document()
+    
+    @QtCore.pyqtSlot()
+    def on_actionExpert_triggered(self):
+        self.open_expert_mode()
     
     @QtCore.pyqtSlot()
     def on_actionAbout_triggered(self):
@@ -183,6 +188,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if filename:
                 open_xml_query(self, filename)
     
+    def open_expert_mode(self):
+        logging.debug('mainwindow.py - open_expert_mode')
+        self.expertWindow = MyExpert(self.info_button_text_dict)
+        x1, y1, w1, h1 = self.geometry().getRect()
+        _, _, w2, h2 = self.expertWindow.geometry().getRect()
+        x2 = x1 + w1/2 - w2/2
+        y2 = y1 + h1/2 - h2/2
+        self.expertWindow.setGeometry(x2, y2, w2, h2)
+        self.expertWindow.exec_()
+        query = self.expertWindow.query
+        if query:
+            self.download_ecmwf_data(query)
+    
     def check_tabs_for_download(self):
         logging.debug('mainwindow.py - check_tabs_for_download')
         checking_passed = tabs_checking(self)
@@ -197,10 +215,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.download_ecmwf_data()
     
-    def download_ecmwf_data(self):
+    def download_ecmwf_data(self, query=None):
         logging.debug('mainwindow.py - download_ecmwf_data')
-        self.query =  prepare_query(self)
-        self.queryWindow = MyQuery(self.query, self.config_dict)
+        if query == None:
+            query =  prepare_query(self)
+        logging.debug('mainwindow.py - download_ecmwf_data - query ' + str(query))
+        self.queryWindow = MyQuery(query, self.config_dict)
         x1, y1, w1, h1 = self.geometry().getRect()
         _, _, w2, h2 = self.queryWindow.geometry().getRect()
         x2 = x1 + w1/2 - w2/2

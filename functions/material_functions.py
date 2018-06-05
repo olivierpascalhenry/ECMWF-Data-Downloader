@@ -65,9 +65,78 @@ def info_button_text(self):
                                   'mw_infoButton_8':('Please specify the output grid. The format is in degrees, where the first number deno'
                                                      + 'tes the east-west resolution (longitude) and the second denotes the north-south res'
                                                      + 'olution (latitude).'),
-                                  'mw_infoButton_9':('Please specify here the name of file to download.'),
-                                  'mw_infoButton_10':('By default, Grib is the format of the file. You can specify your own format from here.')
-                                  }
+                                  'mw_infoButton_9':('Please specify here the name of file to download. The folder where the file is down'
+                                                     + 'loaded should be entered in the Options window.'),
+                                  'mw_infoButton_10':('By default, Grib is the format of the file. You can specify your own format from here.'),
+                                  'ew_infoButton_4':('<b>class</b> specifies the ECMWF classification given to the data. A full list of ECMWF'
+                                                     + ' classes is available <a href=http://apps.ecmwf.int/codes/grib/format/mars/class>onl'
+                                                     + 'ine</a>.<br><br>Example: <b>ei</b> for ERA Interim.'),
+                                  'ew_infoButton_2':('<b>stream</b> identifies the forecasting system used to generated the data when the sam'
+                                                     + 'e meteorological types are archived. A full list of ECMWF streams, is available <a hr'
+                                                     + 'ef=http://apps.ecmwf.int/codes/grib/format/mars/stream>online</a>.<br><br>Example: <b'
+                                                     + '>oper</b> for atmospheric model.'),
+                                  'ew_infoButton_3':('<b>type</b> determines the type of fields to be retrieved. A full list of ECMWF types i'
+                                                     + 's available <a href=http://apps.ecmwf.int/codes/grib/format/mars/type>online</a>.<br>'
+                                                     + '<br>Example: <b>an</b> for analysis.'),
+                                  'ew_infoButton_1':('<b>dataset</b> specifies the ECMWF public datasets. A full list of ECMWF datasets is av'
+                                                     + 'ailable <a href=https://software.ecmwf.int/wiki/display/WEBAPI/Available+ECMWF+Public'
+                                                     + '+Datasets</a>.<br><br>Example: <b>interim</b> for ERA Interim.'),
+                                  'ew_infoButton_5':('<b>expver</b> is the version of the data. Each experiment is assigned a unique code (ve'
+                                                     + 'rsion). Production data is assigned 1 or 2, and experimental data in Operations 11, 1'
+                                                     + '2, ... Research or Member State\'s experiments have a four letter experiment identifi'
+                                                     + 'er.<br><br>Example: <b>1</b>.'),
+                                  'ew_infoButton_6':('<b>levtype</b> denotes type of level and has a direct implication on valid levelist val'
+                                                     + 'ues. Common values are: ml (model level), pl (pressure level), sfc (surface), pv (pot'
+                                                     + 'ential vorticity), pt (potential temperature) and dp (depth).<br><br>Example: <b>sfc<'
+                                                     + '/b> for surface.'),
+                                  'ew_infoButton_7':('<b>levelist</b> specifies the required levels. Valid values have to correspond to the s'
+                                                     + 'elected levtype. For example, pressure levels are specified in hPa, e.g. 1000 or 500.'
+                                                     + '<br><br>Example: <b>100/500/700</b> for pressure level, or empty for surface.'),
+                                  'ew_infoButton_8':('<b>date</b> specifies the Analysis date, the Forecast base date or Observations date. Va'
+                                                     + 'lid formats are:<ul><li>absolute as YYYY-MM-DD and YYYYMMDD</li><li>the day of the yea'
+                                                     + 'r: YYYY-DDD</li><li>relative as -n ; n is the number of days before today (i.e., -1 = '
+                                                     + 'yesterday )</li><li>name of month (e.g. January for Climatology data)</li><li>operatio'
+                                                     + 'nal monthly means are retrieved by setting day (DD) to 00.</li></ul>. Multiple dates c'
+                                                     + 'an be entered as:<ul><li>multiple dates 20140102/20140103/20140104</li><li>period 2014'
+                                                     + '0101/to/2014/01/31</li></ul><br>Example: <b>20140101/to/20140131</b> for January 2014 '
+                                                     + 'with a daily dataset.<br>'),
+                                  'ew_infoButton_9':('<b>step</b> specifies the forecast time step from forecast base time. Valid values are h'
+                                                     + 'ours (HH) from forecast base time. It also specifies the length of the forecast which '
+                                                     + 'verifies at First Guess time.<br><br>Example: <b>0</b>.'),
+                                  'ew_infoButton_10':('<b>time</b> specifies the time of the data in hours and minutes. Valid values depend on'
+                                                      + ' the type of data:<ul><li>Analysis time, Forecast base time or First guess verificati'
+                                                      + 'on time (all usually at synoptic hours: 00, 06, 12 and 18 )</li><li>Observation time'
+                                                      + ' (any combination in hours and minutes is valid, subject to data availability in the '
+                                                      + 'archive)</li></ul>The syntax is HHMM or HH:MM, if MM is omitted it defaults to 00.<br'
+                                                      + '><br>Example: <b>00/12</b>.'),
+                                  'ew_infoButton_11':('<b>grid</b> specifies the output grid which can be either a Gaussian grid or a Latitude'
+                                                      + '/Longitude grid. For Latitude/Longitude output, the format is in degrees (grid = 2.5'
+                                                      + '/2.5). The grid spacing needs to be an integer fraction of 90 degrees (0.125, 0.225, '
+                                                      + '...). Output on a Gaussian grid is specified by a letter denoting the type of Gaussia'
+                                                      + 'n grid followed by an integer representing the number of lines between the Pole and E'
+                                                      + 'quator (ex: F160).<br><br>Example: <b>0.5/0.5</b> for a grid with longitude and latitude res'
+                                                      + 'olutions of 0.5 degree and 0.5 degree respectively.'),
+                                  'ew_infoButton_12':('<b>area</b> specifies the desired sub-area of data to be extracted. Some predefined are'
+                                                      + 'as exist (ex: Europe), but you may specify an area of your own, by inputting the area'
+                                                      + ' limits as North/West/South/East.<br><br>Example: <b>52/-5/42/4 for an area including'
+                                                      + ' France.</b>'),
+                                  'ew_infoButton_13':('<b>param</b> specifies the meteorological parameter.Meteorological parameters can be sp'
+                                                      + 'ecified by their GRIB code (param=130), their mnemonic (param=t) or full name (param='
+                                                      + 'temperature). If a GRIB code is not unique, a parameter can be specified as e.g. para'
+                                                      + 'm=130.nnn, where nnn defines a particular table 2 version. Multiple parameters can be'
+                                                      + ' entered separated by a \"\\". A full list of ECMWF parameters is available <a http:/'
+                                                      + '/apps.ecmwf.int/codes/grib/param-db?&filter=grib1&table=128>online</a>.<br><br>Exampl'
+                                                      + 'e: <b>31.128/151.128</b> for sea surface temperature and mean sea level pressure.'),
+                                  'ew_infoButton_14':('<b>target</b> specifies a file into which data is to be written after retrieval or manip'
+                                                      + 'ulation. It is possible to enter a path and a file.<br><br>Example: <b>/path/to/file/m'
+                                                      + 'y_file.grb</b>.'),
+                                  'ew_infoButton_15':('<b>format</b> is only used if you want to store required data into a netcdf file.<br><br'
+                                                      + '>Example: <b>netcdf</b>.'),
+                                  'ew_infoButton_16':('It is possible to provide other keywords here. Each keyword should be followed by a \":\"'
+                                                      + ' and a space, then the value of the keyword (if multiple values have to be provided, '
+                                                      + 'each value should be separated by a \"/\". Each pair keyword/value should be separated '
+                                                      + 'by a space, a ";" and a last space.<br><br>Example: <b>param: 126.128/13.128 ; date: 20'
+                                                      + '140101/20140201</b>')}
 
 
 def dataset_data_information(self):

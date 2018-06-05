@@ -8,10 +8,26 @@ To do list:
   - add the fact that 'step' checkboxes can be disabled based on 'time' checkboxes.
   - find a new way to prepare the database to store the fact that parameters exist as 'fc' and/or 'an' type.
   - recode logic between tabs.
-  - add a window to propose to expert user to write their own query based on keywords designed by ECMWF.
   - add links to all text referring to ecmwf online help for the different sections.
+  - resize the window about the ECMWF API to avoid scrolling.
+  - think of a merge between About and Changelog.
+  - write documentation
+  - assess the possibility to add a window to look inside grib/netcdf files. -> no simple grib library for windows ; NetCDF ok
+  - check how the software handle grib format (bad request -> grib1 or grib2)
 
   
+June 5 2018, Release version 0.8.2
+==================================
+Version for testing purposes.
+  
+  ADDED:
+    - a window to enter raw input has been added for expert user.
+
+  FIXED:
+    - the stylesheet of all scroll areas has been fixed.
+    - the http redirection in requests has been disabled to avoid the download of the file at the wrong moment.
+
+
 May 28 2018, Release version 0.8.1
 ==================================
 Version for testing purposes.

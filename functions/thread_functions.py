@@ -212,18 +212,16 @@ class ECMWFDataDownloadThread(Qt.QThread):
                     retry = int(query_res.headers['Retry-After'])
                     while status_code == 202:
                         time.sleep(retry)
-                        query_res = requests.get(url=location, headers=headers_get)
+                        query_res = requests.get(url=location, headers=headers_get, allow_redirects=False)
                         status_code = query_res.status_code
-                        if status_code != 202:
-                            if status_code >= 400:
-                                try:
-                                    self.error = str(query_res.json()['error'])
-                                except KeyError:
-                                    self.error = 'No error message'
-                                logging.exception('thread_functions.py - ECMWFDataDownloadThread - run - queued - Exception'
-                                                  + ' - status code ' + str(status_code) + ' ; error ' + self.error)
-                                raise Exception
-                            break
+                        if status_code >= 400:
+                            try:
+                                self.error = str(query_res.json()['error'])
+                            except KeyError:
+                                self.error = 'No error message'
+                            logging.exception('thread_functions.py - ECMWFDataDownloadThread - run - queued - Exception'
+                                                + ' - status code ' + str(status_code) + ' ; error ' + self.error)
+                            raise Exception
                     final_res = requests.get(location, headers=headers_get, stream=True)
                     status_code = final_res.status_code
                     if status_code == 200:
@@ -244,16 +242,10 @@ class ECMWFDataDownloadThread(Qt.QThread):
                                     break
                                 downloaded += len(chunk)
                                 f.write(chunk)
-                                
-                                
-                                
                                 try:
                                     download_speed = self.set_size(downloaded/(time.time() - start)) + '/s'
                                 except ZeroDivisionError:
                                     download_speed= '0 KB/s'
-                                    
-                                print(download_speed)
-                                    
                                 progress = round(downloaded * 100 / total_length)
                                 bar_text = 'Downloading at ' + download_speed
                                 self.download_update.emit({'browser_text':'',

@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(997, 659)
+        MainWindow.resize(997, 634)
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -148,7 +148,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:vertical:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::handle:horizontal {\n"
@@ -157,7 +161,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:horizontal:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical {\n"
@@ -169,10 +177,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: bottom;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical {\n"
@@ -184,10 +197,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: top;\n"
 "  subcontrol-origin: margin;\n"
+"  border-top-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::up-arrow:vertical {\n"
@@ -221,10 +239,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: right;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal {\n"
@@ -236,10 +259,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: left;\n"
 "  subcontrol-origin: margin;\n"
+"border-bottom-left-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::left-arrow:horizontal {\n"
@@ -267,7 +295,7 @@ class Ui_MainWindow(object):
         self.dataset_scroll_area.setWidgetResizable(True)
         self.dataset_scroll_area.setObjectName("dataset_scroll_area")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 951, 482))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 951, 452))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -541,7 +569,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:vertical:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::handle:horizontal {\n"
@@ -550,7 +582,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:horizontal:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical {\n"
@@ -562,10 +598,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: bottom;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical {\n"
@@ -577,10 +618,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: top;\n"
 "  subcontrol-origin: margin;\n"
+"  border-top-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::up-arrow:vertical {\n"
@@ -605,9 +651,6 @@ class Ui_MainWindow(object):
 "  bottom: -1px;\n"
 "}\n"
 "\n"
-"\n"
-"\n"
-"\n"
 "QScrollBar::add-line:horizontal {\n"
 "  border-top: 1px solid white;\n"
 "  border-left: 1px solid rgb(240,240,240);\n"
@@ -617,10 +660,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: right;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal {\n"
@@ -632,10 +680,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: left;\n"
 "  subcontrol-origin: margin;\n"
+"border-bottom-left-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::left-arrow:horizontal {\n"
@@ -663,7 +716,7 @@ class Ui_MainWindow(object):
         self.parameters_scroll_area.setWidgetResizable(True)
         self.parameters_scroll_area.setObjectName("parameters_scroll_area")
         self.scrollAreaWidgetContents_6 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 951, 482))
+        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 951, 477))
         self.scrollAreaWidgetContents_6.setObjectName("scrollAreaWidgetContents_6")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_6)
         self.gridLayout_5.setContentsMargins(0, 0, 0, 0)
@@ -761,7 +814,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:vertical:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::handle:horizontal {\n"
@@ -770,7 +827,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:horizontal:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical {\n"
@@ -782,10 +843,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: bottom;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical {\n"
@@ -797,10 +863,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: top;\n"
 "  subcontrol-origin: margin;\n"
+"  border-top-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::up-arrow:vertical {\n"
@@ -825,9 +896,6 @@ class Ui_MainWindow(object):
 "  bottom: -1px;\n"
 "}\n"
 "\n"
-"\n"
-"\n"
-"\n"
 "QScrollBar::add-line:horizontal {\n"
 "  border-top: 1px solid white;\n"
 "  border-left: 1px solid rgb(240,240,240);\n"
@@ -837,10 +905,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: right;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal {\n"
@@ -852,10 +925,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: left;\n"
 "  subcontrol-origin: margin;\n"
+"border-bottom-left-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::left-arrow:horizontal {\n"
@@ -883,7 +961,7 @@ class Ui_MainWindow(object):
         self.time_scroll_area.setWidgetResizable(True)
         self.time_scroll_area.setObjectName("time_scroll_area")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 951, 482))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 951, 477))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -1430,7 +1508,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:vertical:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::handle:horizontal {\n"
@@ -1439,7 +1521,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QScrollBar:handle:horizontal:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
+"  background-color: rgb(166, 166, 166);\n"
+"}\n"
+"\n"
+"QScrollBar:handle:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical {\n"
@@ -1451,10 +1537,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: bottom;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical {\n"
@@ -1466,10 +1557,15 @@ class Ui_MainWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: top;\n"
 "  subcontrol-origin: margin;\n"
+"  border-top-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::up-arrow:vertical {\n"
@@ -1494,9 +1590,6 @@ class Ui_MainWindow(object):
 "  bottom: -1px;\n"
 "}\n"
 "\n"
-"\n"
-"\n"
-"\n"
 "QScrollBar::add-line:horizontal {\n"
 "  border-top: 1px solid white;\n"
 "  border-left: 1px solid rgb(240,240,240);\n"
@@ -1506,10 +1599,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: right;\n"
 "  subcontrol-origin: margin;\n"
+"  border-bottom-right-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal {\n"
@@ -1521,10 +1619,15 @@ class Ui_MainWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: left;\n"
 "  subcontrol-origin: margin;\n"
+"border-bottom-left-radius: 5px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
+"  background-color: rgb(218, 218, 218);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal:pressed {\n"
+"  background-color: rgb(96, 96, 96);\n"
 "}\n"
 "\n"
 "QScrollBar::left-arrow:horizontal {\n"
@@ -1552,7 +1655,7 @@ class Ui_MainWindow(object):
         self.area_scroll_area.setWidgetResizable(True)
         self.area_scroll_area.setObjectName("area_scroll_area")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 951, 482))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 951, 477))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_4)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -1986,7 +2089,8 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addItem(spacerItem62, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.toolBar = QtWidgets.QToolBar(MainWindow)
-        self.toolBar.setIconSize(QtCore.QSize(30, 30))
+        self.toolBar.setMovable(False)
+        self.toolBar.setIconSize(QtCore.QSize(35, 35))
         self.toolBar.setObjectName("toolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionSave = QtWidgets.QAction(MainWindow)
@@ -2077,10 +2181,16 @@ class Ui_MainWindow(object):
         icon8.addPixmap(QtGui.QPixmap("icons/option_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionOptions.setIcon(icon8)
         self.actionOptions.setObjectName("actionOptions")
+        self.actionExpert = QtWidgets.QAction(MainWindow)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("icons/expert_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionExpert.setIcon(icon9)
+        self.actionExpert.setObjectName("actionExpert")
         self.toolBar.addAction(self.actionExit)
         self.toolBar.addAction(self.actionSeparator1)
         self.toolBar.addAction(self.actionSave)
         self.toolBar.addAction(self.actionOpen)
+        self.toolBar.addAction(self.actionExpert)
         self.toolBar.addAction(self.actionSeparator2)
         self.toolBar.addAction(self.actionAbout)
         self.toolBar.addAction(self.actionChangelog)
@@ -2181,4 +2291,6 @@ class Ui_MainWindow(object):
         self.actionUpdate.setToolTip(_translate("MainWindow", "No update available !"))
         self.actionOptions.setText(_translate("MainWindow", "Options..."))
         self.actionOptions.setToolTip(_translate("MainWindow", "Click to modify EMCWF Data Downloader options"))
+        self.actionExpert.setText(_translate("MainWindow", "Expert..."))
+        self.actionExpert.setToolTip(_translate("MainWindow", "Open the window for raw inputs"))
 

@@ -13,6 +13,7 @@ from ui.Ui_cancelwindow import Ui_cancelWindow
 from ui.Ui_apiwindow import Ui_apiWindow
 from ui.Ui_presavewindow import Ui_presaveWindow
 from ui.Ui_updatewindow import Ui_updateWindow
+from ui.Ui_expertwindow import Ui_expertWindow
 from functions.thread_functions import DownloadFile, ECMWFDataDownloadThread
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -343,4 +344,65 @@ class MyWarningUpdate(QtWidgets.QDialog, Ui_updateWindow):
     def closeWindow(self):
         logging.debug('window_functions.py - MyWarningUpdate - closeWindow')
         self.buttonName = self.sender().objectName()
+        self.close()
+        
+        
+class MyExpert(QtWidgets.QDialog, Ui_expertWindow):
+    def __init__(self, info_text):
+        logging.debug('window_functions.py - MyExpert - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.query = {}
+        self.info_text = info_text
+        self.cancel.clicked.connect(self.closeWindow)
+        self.submit.clicked.connect(self.prepare_query)
+        all_info_boxes = self.findChildren(QtWidgets.QToolButton,)
+        for widget in all_info_boxes:
+            if 'infoButton' in widget.objectName():
+                widget.clicked.connect(lambda: self.info_button())
+    
+    def info_button(self):
+        logging.debug('window_functions.py - MyExpert - info_button - self.sender().objectName() ' + self.sender().objectName())
+        if 'infoButton' in self.sender().objectName():
+            if len(self.info_text[self.sender().objectName()]) > 400:
+                w = 650
+            else:
+                w = 450
+            x = QtGui.QCursor.pos().x()
+            y = QtGui.QCursor.pos().y()
+            x = x - 225
+            y = y + 50
+            self.infoWindow = MyInfo(self.info_text[self.sender().objectName()])
+            self.infoWindow.setMinimumSize(QtCore.QSize(w, self.infoWindow.sizeHint().height()))
+            self.infoWindow.setMaximumSize(QtCore.QSize(w, self.infoWindow.sizeHint().height()))
+            self.infoWindow.setGeometry(x, y, w, self.infoWindow.sizeHint().height())
+            self.infoWindow.exec_()
+    
+    def prepare_query(self):
+        keyword_list = [self.main_ln_1,self.main_ln_2,self.main_ln_3,self.main_ln_4,self.main_ln_5,self.main_ln_6,self.main_ln_7,self.area_ln_1,
+                          self.area_ln_2,self.area_ln_3,self.area_ln_4,self.area_ln_5,self.area_ln_6,self.other_ln_1,self.other_ln_2,self.other_ln_3]
+        name_list = ['dataset','stream','type','class','expver','levtype','levelist','date','step','time','grid','area','param','target','format']
+        for index, keyword in enumerate(keyword_list):
+            try:
+                if keyword.text():
+                    self.query[name_list[index]] = keyword.text()
+            except AttributeError:
+                if keyword.toPlainText():
+                    string = keyword.toPlainText()
+                    i, j = -3, 0
+                    while j < len(string):
+                        j = string.find(': ', i + 3)
+                        keyword = string[i + 3:j]
+                        i = string.find(' ; ', j)
+                        if i != -1:
+                            value = string[j + 2:i]
+                            self.query[keyword] = value
+                        else:
+                            value = string[j + 2:]
+                            self.query[keyword] = value
+                            break
+        self.closeWindow()
+    
+    def closeWindow(self):
+        logging.debug('window_functions.py - MyExpert - closeWindow')
         self.close()
