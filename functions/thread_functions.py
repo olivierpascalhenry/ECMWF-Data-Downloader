@@ -210,18 +210,27 @@ class ECMWFDataDownloadThread(Qt.QThread):
                                            'progress':0})
                     status = query_res.json()['status']
                     retry = int(query_res.headers['Retry-After'])
-                    while status_code == 202:
+                    error_retry = 0
+                    while status_code in [202, 503, 504]:
                         time.sleep(retry)
                         query_res = requests.get(url=location, headers=headers_get, allow_redirects=False)
                         status_code = query_res.status_code
-                        if status_code >= 400:
+                        if status_code >= 400 and status_code < 503:
                             try:
                                 self.error = str(query_res.json()['error'])
-                            except KeyError:
+                            except Exception:
                                 self.error = 'No error message'
                             logging.exception('thread_functions.py - ECMWFDataDownloadThread - run - queued - Exception'
                                                 + ' - status code ' + str(status_code) + ' ; error ' + self.error)
                             raise Exception
+                        elif status_code >= 503:
+                            logging.error('thread_functions.py - ECMWFDataDownloadThread - run - queued - the server returns a response with a code = '
+                                          + str(status_code) + ' ; request is not lost and EDD will continue to ask for the status.')
+                            error_retry += 1
+                            if error_retry == 10:
+                                logging.exception('thread_functions.py - ECMWFDataDownloadThread - run - queued - the server returns a response with '
+                                                  + 'a code = ' + str(status_code) + ' for the 10th time.')
+                                raise Exception
                     final_res = requests.get(location, headers=headers_get, stream=True)
                     status_code = final_res.status_code
                     if status_code == 200:

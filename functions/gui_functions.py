@@ -99,7 +99,7 @@ def populate_parameters(self, dataset):
         self.parameters_bg_1.addButton(self.parameter_cb[param_num])
         self.parameter_cb[param_num].toggled.connect(lambda: populate_times(self, dataset, field, parameters_dict))
         self.parameter_cb[param_num].toggled.connect(lambda: clean_stylesheet_parameter(self))
-        self.parameter_cb[param_num].clicked.connect(lambda: add_checked_parameter_list(self))
+        self.parameter_cb[param_num].toggled.connect(lambda: add_checked_parameter_list(self))
         self.parameter_grid_layout.addWidget(self.parameter_cb[param_num], i, j, 1, 1)
         j += 1
         if j == 2:

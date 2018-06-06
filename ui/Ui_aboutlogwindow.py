@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'logwindow.ui'
+# Form implementation generated from reading ui file 'aboutlogwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.6
 #
@@ -8,10 +8,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_Changelog(object):
-    def setupUi(self, Changelog):
-        Changelog.setObjectName("Changelog")
-        Changelog.resize(600, 450)
+class Ui_aboutlogWindow(object):
+    def setupUi(self, aboutlogWindow):
+        aboutlogWindow.setObjectName("aboutlogWindow")
+        aboutlogWindow.resize(850, 450)
+        aboutlogWindow.setMinimumSize(QtCore.QSize(850, 450))
+        aboutlogWindow.setMaximumSize(QtCore.QSize(862, 450))
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -19,11 +21,11 @@ class Ui_Changelog(object):
         font.setWeight(50)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        Changelog.setFont(font)
+        aboutlogWindow.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icons/changelog_popup_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Changelog.setWindowIcon(icon)
-        Changelog.setStyleSheet("QWidget {\n"
+        icon.addPixmap(QtGui.QPixmap("icons/about_popup_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        aboutlogWindow.setWindowIcon(icon)
+        aboutlogWindow.setStyleSheet("QWidget {\n"
 "    background-color: rgb(230,230,230);\n"
 "}\n"
 "\n"
@@ -162,16 +164,71 @@ class Ui_Changelog(object):
 "  right: -1px;\n"
 "  bottom: -1px;\n"
 "}")
-        self.gridLayout = QtWidgets.QGridLayout(Changelog)
+        self.gridLayout = QtWidgets.QGridLayout(aboutlogWindow)
         self.gridLayout.setObjectName("gridLayout")
-        self.lg_txBrower = QtWidgets.QTextBrowser(Changelog)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label_2 = QtWidgets.QLabel(aboutlogWindow)
+        self.label_2.setMinimumSize(QtCore.QSize(50, 50))
+        self.label_2.setMaximumSize(QtCore.QSize(50, 50))
+        self.label_2.setText("")
+        self.label_2.setPixmap(QtGui.QPixmap("icons/about_popup_icon.svg"))
+        self.label_2.setScaledContents(True)
+        self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
+        spacerItem = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
+        self.label_1 = QtWidgets.QLabel(aboutlogWindow)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_1.sizePolicy().hasHeightForWidth())
+        self.label_1.setSizePolicy(sizePolicy)
+        self.label_1.setMinimumSize(QtCore.QSize(750, 0))
+        self.label_1.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.label_1.setFont(font)
+        self.label_1.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.label_1.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.label_1.setLineWidth(1)
+        self.label_1.setMidLineWidth(0)
+        self.label_1.setTextFormat(QtCore.Qt.AutoText)
+        self.label_1.setScaledContents(False)
+        self.label_1.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignTop)
+        self.label_1.setWordWrap(True)
+        self.label_1.setObjectName("label_1")
+        self.horizontalLayout_2.addWidget(self.label_1)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem2)
+        self.browser = QtWidgets.QTextBrowser(aboutlogWindow)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.browser.sizePolicy().hasHeightForWidth())
+        self.browser.setSizePolicy(sizePolicy)
+        self.browser.setMinimumSize(QtCore.QSize(0, 250))
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(9)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.lg_txBrower.setFont(font)
-        self.lg_txBrower.setStyleSheet("QTextBrowser {\n"
+        self.browser.setFont(font)
+        self.browser.setStyleSheet("QTextBrowser {\n"
 "    border-radius: 3px;\n"
 "    padding: 1px 4px 1px 4px;\n"
 "    background-color:  rgb(240, 240, 240);\n"
@@ -312,23 +369,25 @@ class Ui_Changelog(object):
 "  right: -1px;\n"
 "  bottom: -1px;\n"
 "}")
-        self.lg_txBrower.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.lg_txBrower.setObjectName("lg_txBrower")
-        self.gridLayout.addWidget(self.lg_txBrower, 0, 0, 1, 1)
+        self.browser.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.browser.setObjectName("browser")
+        self.verticalLayout_2.addWidget(self.browser)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem3)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.lg_okButton = QtWidgets.QToolButton(Changelog)
-        self.lg_okButton.setMinimumSize(QtCore.QSize(93, 27))
-        self.lg_okButton.setMaximumSize(QtCore.QSize(93, 27))
+        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem4)
+        self.button = QtWidgets.QToolButton(aboutlogWindow)
+        self.button.setMinimumSize(QtCore.QSize(90, 27))
+        self.button.setMaximumSize(QtCore.QSize(90, 27))
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.lg_okButton.setFont(font)
-        self.lg_okButton.setStyleSheet("QToolButton {\n"
+        self.button.setFont(font)
+        self.button.setStyleSheet("QToolButton {\n"
 "    border: 1px solid #acacac;\n"
 "    border-radius: 1px;\n"
 "    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
@@ -348,18 +407,20 @@ class Ui_Changelog(object):
 "    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
 "                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
 "}")
-        self.lg_okButton.setObjectName("lg_okButton")
-        self.horizontalLayout.addWidget(self.lg_okButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
-        self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 1)
+        self.button.setObjectName("button")
+        self.horizontalLayout.addWidget(self.button)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem5)
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+        self.gridLayout.addLayout(self.verticalLayout_2, 0, 0, 1, 1)
 
-        self.retranslateUi(Changelog)
-        QtCore.QMetaObject.connectSlotsByName(Changelog)
+        self.retranslateUi(aboutlogWindow)
+        QtCore.QMetaObject.connectSlotsByName(aboutlogWindow)
 
-    def retranslateUi(self, Changelog):
+    def retranslateUi(self, aboutlogWindow):
         _translate = QtCore.QCoreApplication.translate
-        Changelog.setWindowTitle(_translate("Changelog", "Changelog"))
-        self.lg_txBrower.setDocumentTitle(_translate("Changelog", "Changelog"))
-        self.lg_okButton.setText(_translate("Changelog", "Ok"))
+        aboutlogWindow.setWindowTitle(_translate("aboutlogWindow", "About ECMWF Data Downloader"))
+        self.label_1.setText(_translate("aboutlogWindow", "<html><head/><body><p>The ECMWF Data Downloader v0.8.2 was developed by Olivier Henry, using Eclipse 4.7.3, Python 3.5 and PyQt 5.10. It was designed to help researchers to download data easily from ECMWF different scientific projects by using the official ECMWF web API.</p></body></html>"))
+        self.browser.setDocumentTitle(_translate("aboutlogWindow", "Changelog"))
+        self.button.setText(_translate("aboutlogWindow", "Ok"))
 

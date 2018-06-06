@@ -34,9 +34,8 @@ def save_xml_query(self, out_file_name):
     # parameters
     ############################
     parameters = add_element(doc, "Parameters", doc_root)
-    for parameter in self.parameter_cb:
-        if parameter.isChecked():
-            add_element(doc, "Parameter", parameters, parameter.text())
+    for parameter in self.checked_parameter:
+        add_element(doc, "Parameter", parameters, parameter)
     
     
     ############################
@@ -129,9 +128,9 @@ def open_xml_query(self, file_name):
     ############################
     index = self.tabWidget.currentIndex()
     parameters = get_element(doc, "Parameters")
-    parameter_list = get_element_values(parameters, 'Parameter')
+    self.checked_parameter = get_element_values(parameters, 'Parameter')
     for widget in self.parameter_cb:
-        if widget.text() in parameter_list:
+        if widget.text() in self.checked_parameter:
             widget.setChecked(True)
     self.tabWidget.setCurrentIndex(index)
     

@@ -10,7 +10,7 @@ import sys
 from PyQt5 import QtCore, QtWidgets, QtGui
 from ui.Ui_mainwindow import Ui_MainWindow
 from ui._version import _downloader_version, _eclipse_version, _py_version, _qt_version
-from functions.window_functions import MyAbout, MyLog, MyOptions, MyUpdate, MySelect, MyQuery, MyApi, MyWarning, MyWarningUpdate
+from functions.window_functions import MyAbout, MyOptions, MyUpdate, MySelect, MyQuery, MyApi, MyWarning, MyWarningUpdate
 from functions.window_functions import MyExpert
 from functions.material_functions import info_button_text, object_init, dataset_data_information
 from functions.thread_functions import CheckECMWFDownloaderOnline
@@ -33,6 +33,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         info_button_text(self)
         dataset_data_information(self)
         hide_area_map(self)
+        self.area_rb_1.setChecked(True)
         itemDelegate = QtWidgets.QStyledItemDelegate()
         self.area_cb_1.setItemDelegate(itemDelegate)
         self.area_cb_2.setItemDelegate(itemDelegate)
@@ -90,10 +91,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.open_about()
         
     @QtCore.pyqtSlot()
-    def on_actionChangelog_triggered(self):
-        self.open_changelog()
-        
-    @QtCore.pyqtSlot()
     def on_actionOptions_triggered(self):
         self.open_options()
     
@@ -108,8 +105,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             _, _, w, h = QtWidgets.QDesktopWidget().screenGeometry(-1).getRect()
             _, _, w2, h2 = self.apiWindow.geometry().getRect()
             self.apiWindow.setGeometry(w/2 - w2/2, h/2 - h2/2, w2, h2)
-            self.apiWindow.setMinimumSize(QtCore.QSize(700, 400))
-            self.apiWindow.setMaximumSize(QtCore.QSize(700, 400))
+            self.apiWindow.setMinimumSize(QtCore.QSize(700, 500))
+            self.apiWindow.setMaximumSize(QtCore.QSize(700, 500))
             self.apiWindow.exec_()
             if self.apiWindow.checkbox.isChecked():
                 if not self.config_dict['OPTIONS'].getboolean('display_api_info'):
@@ -134,19 +131,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.aboutWindow.setGeometry(x2, y2, w2, h2)
-        self.aboutWindow.setMinimumSize(QtCore.QSize(560, 260))
-        self.aboutWindow.setMaximumSize(QtCore.QSize(560, 360))
+        self.aboutWindow.setMinimumSize(QtCore.QSize(850, 450))
+        self.aboutWindow.setMaximumSize(QtCore.QSize(850, 450))
         self.aboutWindow.exec_()
-    
-    def open_changelog(self):
-        logging.debug('mainwindow.py - open_changelog')
-        self.logWindow = MyLog()
-        x1, y1, w1, h1 = self.geometry().getRect()
-        _, _, w2, h2 = self.logWindow.geometry().getRect()
-        x2 = x1 + w1/2 - w2/2
-        y2 = y1 + h1/2 - h2/2
-        self.logWindow.setGeometry(x2, y2, w2, h2)
-        self.logWindow.exec_()
     
     def open_options(self):
         logging.debug('mainwindow.py - open_options')

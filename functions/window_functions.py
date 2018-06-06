@@ -3,8 +3,7 @@ import os
 import time
 import platform
 from ui.Ui_infowindow import Ui_infoWindow
-from ui.Ui_aboutwindow import Ui_aboutWindow
-from ui.Ui_logwindow import Ui_Changelog
+from ui.Ui_aboutlogwindow import Ui_aboutlogWindow
 from ui.Ui_optionwindow import Ui_optionWindow
 from ui.Ui_storewindow import Ui_storeWindow
 from ui.Ui_selectionwindow import Ui_selectionWindow
@@ -30,30 +29,18 @@ class MyInfo(QtWidgets.QDialog, Ui_infoWindow):
         logging.debug('window_functions.py - MyInfo - closeWindow')
         self.close()
 
-
-class MyAbout(QtWidgets.QDialog, Ui_aboutWindow):
+        
+class MyAbout(QtWidgets.QDialog, Ui_aboutlogWindow):
     def __init__(self, text):
         logging.debug('window_functions.py - MyAbout - __init__')
         QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
-        self.aw_label_1.setText(text)
-        self.aw_okButton.clicked.connect(self.closeWindow)
+        self.label_1.setText(text)
+        self.browser.setPlainText(open("documentation/changelog.txt").read())
+        self.button.clicked.connect(self.closeWindow)
 
     def closeWindow(self):
         logging.debug('window_functions.py - MyAbout - closeWindow')
-        self.close()
-        
-        
-class MyLog(QtWidgets.QDialog, Ui_Changelog):
-    def __init__(self):
-        logging.debug('window_functions.py - MyLog - __init__')
-        QtWidgets.QWidget.__init__(self)
-        self.setupUi(self)
-        self.lg_txBrower.setPlainText(open("documentation/changelog.txt").read())
-        self.lg_okButton.clicked.connect(self.closeWindow)
-        
-    def closeWindow(self):
-        logging.debug('window_functions.py - MyLog - closeWindow')
         self.close()
 
 
@@ -112,7 +99,10 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         logging.debug('window_functions.py - MyOptions - get_directory')
         file_dialog = QtWidgets.QFileDialog()
         out_dir = file_dialog.getExistingDirectory(self, "Select Directory")
-        self.ow_lineEdit_1.setText(str(out_dir.replace('/','\\')))
+        if self.sender().objectName() == 'ow_openButton_1':
+            self.ow_lineEdit_1.setText(str(out_dir.replace('/','\\')))
+        elif self.sender().objectName() == 'ow_openButton_2':
+            self.ow_lineEdit_5.setText(str(out_dir.replace('/','\\')))
     
     def save_and_close(self):
         logging.debug('window_functions.py - MyOptions - save_and_close')

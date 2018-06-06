@@ -1206,7 +1206,7 @@ QScrollBar::right-arrow:horizontal:pressed {
              <x>0</x>
              <y>0</y>
              <width>951</width>
-             <height>477</height>
+             <height>452</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
@@ -1608,7 +1608,7 @@ QScrollBar::right-arrow:horizontal:pressed {
              <x>0</x>
              <y>0</y>
              <width>951</width>
-             <height>477</height>
+             <height>452</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_4">
@@ -3039,7 +3039,7 @@ QScrollBar::right-arrow:horizontal:pressed {
              <x>0</x>
              <y>0</y>
              <width>951</width>
-             <height>477</height>
+             <height>452</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -4157,8 +4157,6 @@ QToolButton:pressed {
    <addaction name="actionExpert"/>
    <addaction name="actionSeparator2"/>
    <addaction name="actionAbout"/>
-   <addaction name="actionChangelog"/>
-   <addaction name="actionSeparator3"/>
    <addaction name="actionOptions"/>
    <addaction name="actionUpdate"/>
   </widget>
@@ -4250,28 +4248,6 @@ QToolButton:pressed {
     </font>
    </property>
   </action>
-  <action name="actionChangelog">
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/changelog_popup_icon.svg</normaloff>icons/changelog_popup_icon.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Changelog...</string>
-   </property>
-   <property name="toolTip">
-    <string>Read the changelog</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>FreeSans</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-     <stylestrategy>PreferAntialias</stylestrategy>
-     <kerning>true</kerning>
-    </font>
-   </property>
-  </action>
   <action name="actionSeparator1">
    <property name="enabled">
     <bool>false</bool>
@@ -4297,21 +4273,6 @@ QToolButton:pressed {
    </property>
    <property name="toolTip">
     <string>separator2</string>
-   </property>
-  </action>
-  <action name="actionSeparator3">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/separator_icon.png</normaloff>icons/separator_icon.png</iconset>
-   </property>
-   <property name="text">
-    <string>separator3</string>
-   </property>
-   <property name="toolTip">
-    <string>separator3</string>
    </property>
   </action>
   <action name="actionUpdate">
@@ -4362,13 +4323,13 @@ QToolButton:pressed {
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="file_bg_1"/>
-  <buttongroup name="dataset_gb_1"/>
   <buttongroup name="period_bg_1"/>
   <buttongroup name="time_bg_1">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="dataset_gb_1"/>
+  <buttongroup name="file_bg_1"/>
  </buttongroups>
 </ui>

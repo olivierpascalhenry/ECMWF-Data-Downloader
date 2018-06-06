@@ -26,8 +26,8 @@ def prepare_query(self):
     grid = self.resolution_dic[self.area_cb_2.currentIndex()]
     
     ### format
-    if self.file_bg_1.checkedButton():
-        format = self.file_bg_1.checkedButton().text().lower()
+    if self.file_bg_1.checkedButton().text() == 'NetCDF':
+        format = 'netcdf'
         
     ### filename
     if self.area_ln_5.text():

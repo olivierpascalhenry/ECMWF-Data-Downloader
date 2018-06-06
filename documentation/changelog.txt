@@ -5,16 +5,31 @@ CHANGELOG
 
 To do list:
 -----------
+  
   - add the fact that 'step' checkboxes can be disabled based on 'time' checkboxes.
   - find a new way to prepare the database to store the fact that parameters exist as 'fc' and/or 'an' type.
   - recode logic between tabs.
   - add links to all text referring to ecmwf online help for the different sections.
-  - resize the window about the ECMWF API to avoid scrolling.
-  - think of a merge between About and Changelog.
   - write documentation
   - assess the possibility to add a window to look inside grib/netcdf files. -> no simple grib library for windows ; NetCDF ok
-  - check how the software handle grib format (bad request -> grib1 or grib2)
+  - display a window to say that the download was ok and give few information (mean transfer rate, time to download, path and name of the file).
 
+  
+June 6 2018, Release version 0.8.3
+===================================
+Version for testing purposes.
+
+  FIXED:
+    - the result of the function get_directory in the Options window was always injected in the first QLineEdit of the window. It has been fixed.
+    - the height of the API information window has been fixed.
+    - by default, the GRIB format is selected in the last tab.
+    - when EDD read an xml file containing a query with parameters, the list of checked parameters is not updated and the list stay empty, then no param keyword is set in the query dictionary. [CRITICAL]
+    
+  MODIFIED:
+    - the About and Changelog windows have been merged.
+    - the function to download data from ECMWF server now handles error 503 and 504 if the query is still active on ECMWF servers.
+    - the writing and reading of parameters in xml file has been modified.
+  
   
 June 5 2018, Release version 0.8.2
 ==================================
