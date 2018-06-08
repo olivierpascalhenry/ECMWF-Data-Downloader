@@ -11,6 +11,7 @@ from PyQt5 import QtCore, Qt
 from distutils.version import LooseVersion
 from ui._version import _downloader_version
 from PyQt5 import QtWidgets
+from datetime import datetime
 
         
 class CheckECMWFDownloaderOnline(Qt.QThread):
@@ -123,7 +124,7 @@ class DownloadFile(Qt.QThread):
         
 class ECMWFDataDownloadThread(Qt.QThread):
     download_update = QtCore.pyqtSignal(dict)
-    download_done = QtCore.pyqtSignal()
+    download_done = QtCore.pyqtSignal(dict)
     download_failed = QtCore.pyqtSignal(str)
     
     def __init__(self, query, api_url, api_key, api_email, path):
@@ -233,6 +234,7 @@ class ECMWFDataDownloadThread(Qt.QThread):
                                 raise Exception
                     final_res = requests.get(location, headers=headers_get, stream=True)
                     status_code = final_res.status_code
+                    logging.debug('thread_functions.py - ECMWFDataDownloadThread - run - downloading - headers ' + str(final_res.headers))
                     if status_code == 200:
                         with open(self.path + self.filename, 'wb') as f:
                             text = 'The processing of the query is finished and the file is ready to be downloaded.<br>'
@@ -245,16 +247,20 @@ class ECMWFDataDownloadThread(Qt.QThread):
                             self.download_update.emit({'browser_text':'Downloading...',
                                                        'bar_text':'Downloading...',
                                                        'progress':0})
+                            self.download_update.emit({'browser_text':'Total size of the file: ' + self.set_size(total_length),
+                                                       'bar_text':'Downloading...',
+                                                       'progress':0})
                             self.downloading = True
+                            download_start = datetime.now()
                             for chunk in final_res.iter_content(chunk_size=1024):
                                 if self.cancel:
                                     break
                                 downloaded += len(chunk)
                                 f.write(chunk)
                                 try:
-                                    download_speed = self.set_size(downloaded/(time.time() - start)) + '/s'
+                                    download_speed = self.set_size(downloaded / (time.time() - start)) + '/s'
                                 except ZeroDivisionError:
-                                    download_speed= '0 KB/s'
+                                    download_speed = '0 KB/s'   
                                 progress = round(downloaded * 100 / total_length)
                                 bar_text = 'Downloading at ' + download_speed
                                 self.download_update.emit({'browser_text':'',
@@ -269,7 +275,12 @@ class ECMWFDataDownloadThread(Qt.QThread):
                             except Exception:
                                 logging.exception('thread_functions.py - ECMWFDataDownloadThread - run - Trying to remove aborted file')
                         else:
-                            self.download_done.emit()
+                            average_speed = self.set_size(total_length / (time.time() - start)) + '/s'
+                            download_time = datetime.now() - download_start
+                            final_dict = {'average_speed': average_speed,
+                                          'file_path': self.path + self.filename,
+                                          'download_time': download_time}
+                            self.download_done.emit(final_dict)
                     else:
                         try:
                             self.error = str(final_res.json()['error'])

@@ -781,6 +781,7 @@ def clean_stylesheet_area(self):
 
 
 def add_checked_parameter_list(self):
+    logging.debug('gui_functions.py - add_checked_parameter_list')
     widget = self.sender()
     if widget.isChecked():
         self.checked_parameter.append(widget.text())

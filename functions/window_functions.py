@@ -2,6 +2,7 @@ import logging
 import os
 import time
 import platform
+import subprocess
 from ui.Ui_infowindow import Ui_infoWindow
 from ui.Ui_aboutlogwindow import Ui_aboutlogWindow
 from ui.Ui_optionwindow import Ui_optionWindow
@@ -13,6 +14,7 @@ from ui.Ui_apiwindow import Ui_apiWindow
 from ui.Ui_presavewindow import Ui_presaveWindow
 from ui.Ui_updatewindow import Ui_updateWindow
 from ui.Ui_expertwindow import Ui_expertWindow
+from ui.Ui_successwindow import Ui_successWindow
 from functions.thread_functions import DownloadFile, ECMWFDataDownloadThread
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -170,7 +172,6 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
         self.thread.cancel_download()
         self.cancel = True
         time.sleep(0.25)
-        #self.thread.stop()
         self.close()
         
     def download_failed(self):
@@ -182,7 +183,6 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
     def closeEvent(self, event):
         logging.debug('window_functions.py - MyUpdate - closeEvent')
         self.thread.download_update.disconnect(self.update_progress_bar)
-        #self.thread.stop()
         if self.cancel:
             os.remove(self.update_file)
 
@@ -218,7 +218,7 @@ class MyQuery(QtWidgets.QDialog, Ui_downloadWindow):
         file_folder = self.config_dict.get('CREDENTIALS', 'folder')
         self.thread = ECMWFDataDownloadThread(self.query, api_url, api_key, api_email, file_folder)
         self.thread.download_update.connect(self.update_progress)
-        self.thread.download_done.connect(self.close)
+        self.thread.download_done.connect(self.download_done)
         self.thread.download_failed.connect(self.download_failed)
         self.thread.start()
     
@@ -271,11 +271,28 @@ class MyQuery(QtWidgets.QDialog, Ui_downloadWindow):
         self.dw_button.setText('Quit')
         self.dw_button.clicked.disconnect(self.cancel_window)
         self.dw_button.clicked.connect(self.close)
-        
+    
+    def download_done(self, val):
+        logging.debug('window_functions.py - MyQuery - download_done')
+        time = str(val['download_time'])
+        index1 = time.find(':')
+        index2 = time.find(':', index1 + 1)
+        hour = time[:index1]
+        min = time[index1 + 1:index2]
+        sec = time[index2 + 1:]
+        if len(hour) == 1:
+            hour = '0' + hour
+        if len(min) == 1:
+            min ='0' + min
+        self.download_time = hour + 'h ' + min + 'mn ' + sec + 's'
+        self.file_path = val['file_path']
+        self.average_speed = val['average_speed']
+        self.close()
+    
     def closeEvent(self, event):
         logging.debug('window_functions.py - MyQuery - closeEvent')
         self.thread.download_update.disconnect(self.update_progress)
-        self.thread.download_done.disconnect(self.close)
+        self.thread.download_done.disconnect(self.download_done)
         self.thread.download_failed.disconnect(self.download_failed)
         self.thread.stop()
 
@@ -302,7 +319,7 @@ class MyCancel(QtWidgets.QDialog, Ui_cancelWindow):
 class MyWarning(QtWidgets.QDialog, Ui_presaveWindow):
     def __init__(self, string):
         QtWidgets.QWidget.__init__(self)
-        logging.debug('mainwindow.py - MyWarning - string ' + string)
+        logging.debug('mainwindow.py - MyWarning - __init__ - string ' + string)
         self.setupUi(self)
         self.cancel_button.setFocus(True)
         all_buttons = self.findChildren(QtWidgets.QToolButton)
@@ -369,6 +386,7 @@ class MyExpert(QtWidgets.QDialog, Ui_expertWindow):
             self.infoWindow.exec_()
     
     def prepare_query(self):
+        logging.debug('window_functions.py - MyExpert - prepare_query')
         keyword_list = [self.main_ln_1,self.main_ln_2,self.main_ln_3,self.main_ln_4,self.main_ln_5,self.main_ln_6,self.main_ln_7,self.area_ln_1,
                           self.area_ln_2,self.area_ln_3,self.area_ln_4,self.area_ln_5,self.area_ln_6,self.other_ln_1,self.other_ln_2,self.other_ln_3]
         name_list = ['dataset','stream','type','class','expver','levtype','levelist','date','step','time','grid','area','param','target','format']
@@ -395,4 +413,34 @@ class MyExpert(QtWidgets.QDialog, Ui_expertWindow):
     
     def closeWindow(self):
         logging.debug('window_functions.py - MyExpert - closeWindow')
+        self.close()
+
+
+class MySuccess(QtWidgets.QDialog, Ui_successWindow):
+    def __init__(self, download_time, file_path, average_speed):
+        QtWidgets.QWidget.__init__(self)
+        logging.debug('mainwindow.py - MySuccess - __init__')
+        self.setupUi(self)
+        self.download_time = download_time
+        self.file_path = file_path
+        self.average_speed = average_speed
+        self.label_6.setText(self.average_speed)
+        self.label_8.setText(self.download_time)
+        self.label_7.setText(self.file_path)
+        self.label_7.setCursorPosition(0)
+        self.open.clicked.connect(self.open_path)
+        self.button.clicked.connect(self.closeWindow)
+
+    def open_path(self):
+        logging.debug('mainwindow.py - MySuccess - open_path')
+        folder = os.path.dirname(self.file_path)
+        if platform.system() == 'Windows':
+            subprocess.Popen('explorer "' + folder + '"')
+        elif platform.system() == 'Linux':
+            subprocess.Popen(['xdg-open', folder])
+        elif platform.system() == 'Darwin':
+            subprocess.Popen(['open', folder])
+
+    def closeWindow(self):
+        logging.debug('window_functions.py - MySuccess - closeWindow')
         self.close()

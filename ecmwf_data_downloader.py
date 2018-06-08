@@ -40,10 +40,15 @@ def launch_prosim_updater(path):
         config_dict.set('CREDENTIALS', 'folder', '')
         with open(os.path.join(path, 'ecmwf_downloader.ini'), 'w') as configfile:
             config_dict.write(configfile)
+    path_exist = True
     if not config_dict.get('LOG', 'path'):
         log_filename = os.path.join(path, 'ecmwf_downloader_log.out')
     else:
-        log_filename = os.path.join(config_dict.get('LOG', 'path'),'ecmwf_downloader_log.out')
+        path_exist = os.path.isdir(config_dict.get('LOG', 'path'))
+        if path_exist:
+            log_filename = os.path.join(config_dict.get('LOG', 'path'),'ecmwf_downloader_log.out')
+        else:
+            log_filename = os.path.join(path, 'ecmwf_downloader_log.out')
     logging.getLogger('').handlers = []
     logging.basicConfig(filename = log_filename,
                         level = getattr(logging, config_dict.get('LOG', 'level')),
@@ -57,6 +62,12 @@ def launch_prosim_updater(path):
     logging.info('*****************************************')
     logging.info('ECMWF Data Downloader ' + _downloader_version + ' is starting ...')
     logging.info('*****************************************')
+    if not path_exist:
+        logging.exception('ecmwf_data_downloader.py - exception occured when EDD tried to write log file in a non-default folder. Please check '
+                          + 'that the folder exists. The path option in the config file is going to be modified to the default folder.')
+        config_dict.set('LOG', 'path', '')
+        with open(os.path.join(path, 'ecmwf_downloader.ini'), 'w') as configfile:
+            config_dict.write(configfile)   
     ui = MainWindow(path, config_dict)
     ui.show()
     splash.finish(ui)

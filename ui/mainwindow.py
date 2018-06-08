@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from ui.Ui_mainwindow import Ui_MainWindow
 from ui._version import _downloader_version, _eclipse_version, _py_version, _qt_version
 from functions.window_functions import MyAbout, MyOptions, MyUpdate, MySelect, MyQuery, MyApi, MyWarning, MyWarningUpdate
-from functions.window_functions import MyExpert
+from functions.window_functions import MyExpert, MySuccess, MyInfo
 from functions.material_functions import info_button_text, object_init, dataset_data_information
 from functions.thread_functions import CheckECMWFDownloaderOnline
 from functions.gui_functions import activate_period_elements, populate_fields, hide_area_map, set_visibility_area_map, clean_stylesheet_labels
@@ -69,6 +69,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         logging.info('mainwindow.py - UI initialized ...')
         logging.info('*****************************************')
         self.api_information()
+        self.check_file_folder()
     
     @QtCore.pyqtSlot()
     def on_actionExit_triggered(self):
@@ -118,6 +119,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.config_dict.set('OPTIONS', 'display_api_info', 'False')
                     with open(os.path.join(self.config_path, 'ecmwf_downloader.ini'), 'w') as config_file:
                         self.config_dict.write(config_file)
+
+    def check_file_folder(self):
+        logging.debug('mainwindow.py - check_file_folder')
+        if not os.path.isdir(self.config_dict.get('CREDENTIALS', 'folder')) and self.config_dict.get('CREDENTIALS', 'folder'):
+            logging.exception('mainwindow.py - check_file_folder - exception occured when EDD checked the existence of the ECMWF file folder. '
+                              + 'Please check that the folder exists. The folder option in the config file is going to be modified to the defa'
+                              + 'ult folder.')
+            self.config_dict.set('CREDENTIALS', 'folder', '')
+            with open(os.path.join(self.config_path, 'ecmwf_downloader.ini'), 'w') as config_file:
+                        self.config_dict.write(config_file)
+            text = ('EDD has detected that the folder where ECMWF files are saved doesn\'t exist anymore. It has been reseted in the config file'
+                    + ' to the default folder. Please check your options and set a new folder for ECMWF files.')
+            self.infoWindow = MyInfo(text)
+            _, _, w, h = QtWidgets.QDesktopWidget().screenGeometry(-1).getRect()
+            _, _, w2, h2 = self.infoWindow.geometry().getRect()
+            self.infoWindow.setGeometry(w/2 - w2/2, h/2 - h2/2, 450, self.infoWindow.sizeHint().height())
+            self.infoWindow.setMinimumSize(QtCore.QSize(450, self.infoWindow.sizeHint().height()))
+            self.infoWindow.setMaximumSize(QtCore.QSize(450, self.infoWindow.sizeHint().height()))
+            self.infoWindow.exec_()
+
 
     def open_about(self):
         logging.debug('mainwindow.py - open_about')
@@ -214,6 +235,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         y2 = y1 + h1/2 - h2/2
         self.queryWindow.setGeometry(x2, y2, w2, h2)
         self.queryWindow.exec_()
+        try:
+            download_time = self.queryWindow.download_time
+            file_path = self.queryWindow.file_path
+            average_speed = self.queryWindow.average_speed
+            self.successWindow = MySuccess(download_time, file_path, average_speed)
+            x1, y1, w1, h1 = self.geometry().getRect()
+            _, _, w2, h2 = self.successWindow.geometry().getRect()
+            x2 = x1 + w1/2 - w2/2
+            y2 = y1 + h1/2 - h2/2
+            self.successWindow.setGeometry(x2, y2, w2, h2)
+            self.successWindow.exec_()
+        except AttributeError:
+            pass
     
     def closeEvent(self, event):
         logging.debug('mainwindow.py - closeEvent - self.modified ' + str(self.modified))

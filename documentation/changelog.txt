@@ -9,11 +9,28 @@ To do list:
   - add the fact that 'step' checkboxes can be disabled based on 'time' checkboxes.
   - find a new way to prepare the database to store the fact that parameters exist as 'fc' and/or 'an' type.
   - recode logic between tabs.
-  - add links to all text referring to ecmwf online help for the different sections.
-  - write documentation
   - assess the possibility to add a window to look inside grib/netcdf files. -> no simple grib library for windows ; NetCDF ok
-  - display a window to say that the download was ok and give few information (mean transfer rate, time to download, path and name of the file).
 
+
+June 8 2018, Release version 0.8.4
+==================================
+Version for testing purposes. As the directory structure of EDD has been modified, EDD should be uninstalled before installing the new version.
+
+  FIXED:
+    - few logging messages have been corrected.
+
+  MODIFIED:
+    - when a download has been accomplish, the download_done signal transmits now a dictionary for the new implemented window.
+    - the directory structure and shortcuts have been modified in Advanced Installer.
+
+  ADDED:
+    - the total size of the file has been added in the Download window.
+    - a new window is now displayed when a download is successfull showing the path of the file, the average download speed and the time needed to download the file.
+    - an error handler has been included when EDD tries to write a log file is the folder doesn't exist. If the error is triggered, EDD will write the log file in the default folder.
+    - EDD checks now if the folder where ECMWF files are saved exists. If the folder doesn't exist, the folder option is reseted to default folder and a info message is displayed.
+    - more logging messages have been added.
+    - a documentation has been written using Sphinx.
+  
   
 June 6 2018, Release version 0.8.3
 ===================================
@@ -29,7 +46,7 @@ Version for testing purposes.
     - the About and Changelog windows have been merged.
     - the function to download data from ECMWF server now handles error 503 and 504 if the query is still active on ECMWF servers.
     - the writing and reading of parameters in xml file has been modified.
-  
+
   
 June 5 2018, Release version 0.8.2
 ==================================
